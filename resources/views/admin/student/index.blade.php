@@ -41,7 +41,7 @@ use App\Models\StudentNotes;
                             <th>Country</th>
                             <th>Username</th>
                             <th>Password</th>
-                            <th>Eligible/Not-Eligible</th>
+                            <!-- <th>Eligible/Not-Eligible</th> -->
                             <th>Status</th>
                             <th>
                                 <span class="text text-success">Eligible</span> / 
@@ -114,10 +114,10 @@ use App\Models\StudentNotes;
                                 <a onClick="return confirm('Are you sure you want to approve this student..?)" class="badge bg-danger btn-rounded" style="color: #fff;" href="{{route('student.status',['id'=>$student->id,'status'=>1])}}">disaprove</a>
                                 @endif
                             </td>
-                            <td>
+                            <!-- <td>
                                 <button class="btn btn-success btn-sm badge badge-sm" data-toggle="modal"data-target="#eligibleNotes{{ $student->id }}" title="eligible"><i class="fa-solid fa-square-plus"></i></button>
                                 <button class="btn btn-danger btn-sm badge badge-sm" data-toggle="modal"data-target="#not-eligibleNotes{{ $student->id }}" title="not-eligible"><i class="fa-solid fa-square-plus"></i></button>
-                            </td>
+                            </td> -->
                             <td class="text-centers">
                                 {{-- <a href=""><i class="far fa-eye"></i></a> --}}
                                 <!--<a class="text-primary" href="javascript:" onclick="getDetail({{$student->id}})" ><i class="fa-solid fa-eye"></i></a>-->
