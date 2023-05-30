@@ -127,11 +127,11 @@
                                                                 <h4> {{ $filter->application_fee }}</h4>
                                                                 <p>Application Fee</p>
                                                             </div>
-                                            <!-- <div class="col-md-4">
+                                            <div class="col-md-4">
                                             <button class="btn btn-danger" data-toggle="modal"
                                             data-target="#apply{{ $filter->id }}"
                                             data-toggle="tooltip" data-placement="top"
-                                                title="Apply">Apply Now</button> -->
+                                                title="Apply">Apply Now</button>
                                                             </div>
                                                         </div>
                                                     </div>
