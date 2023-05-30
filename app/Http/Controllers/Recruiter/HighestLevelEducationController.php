@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Controllers\Recruiter;
+
+use App\Http\Controllers\Controller;
+use App\Models\HighestLevelEducation;
+use Illuminate\Http\Request;
+
+class HighestLevelEducationController extends Controller
+{
+    public function index()
+    {
+        $eduactionlevels = HighestLevelEducation::where('created_by', auth()->user()->id)->latest()->get();
+        return view('recruiter.highestleveleducation.index', compact('eduactionlevels'));
+    }
+    public function create(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'date' => 'required',
+        ]);
+        $eduactionlevel = new HighestLevelEducation();
+        $eduactionlevel->name = $request->name;
+        $eduactionlevel->create_date = $request->date;
+        $eduactionlevel->created_by = Auth()->user()->id;
+        $eduactionlevel->save();
+        return redirect()->back()->with('success', 'Eduaction level created successfully');
+    }
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'date' => 'required',
+        ]);
+        $eduactionlevel = HighestLevelEducation::find($id);
+        
+        $eduactionlevel->name = $request->name;
+        $eduactionlevel->create_date = $request->date;
+        $eduactionlevel->created_by = Auth()->user()->id;
+        $eduactionlevel->save();
+        
+        return redirect()->back()->with('update', 'Eduaction level updated successfully');
+    }
+    public function destroy($id)
+    {
+        $eduactionlevel = HighestLevelEducation::find($id);
+    
+        $eduactionlevel->delete();
+    
+        return redirect()->back();
+    }
+}

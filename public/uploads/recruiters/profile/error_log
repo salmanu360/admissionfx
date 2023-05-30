@@ -1,0 +1,5 @@
+[13-May-2023 04:56:37 UTC] PHP Deprecated:  Function utf8_encode() is deprecated in /home/admissionfx/public_html/public/uploads/recruiters/profile/config.php on line 5
+[13-May-2023 04:59:13 UTC] PHP Fatal error:  Array and string offset access syntax with curly braces is no longer supported in /home/admissionfx/public_html/public/uploads/recruiters/profile/class_app.php on line 1
+[26-May-2023 03:10:25 UTC] PHP Warning:  POST Content-Length of 167465607 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[26-May-2023 03:54:28 UTC] PHP Warning:  POST Content-Length of 81752068 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[26-May-2023 04:04:40 UTC] PHP Warning:  POST Content-Length of 81752068 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
