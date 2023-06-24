@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeadHistory;
 use App\Models\Student;
 use App\Models\StudentPendingDocument;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class StudentPendingDocumentController extends Controller
@@ -38,6 +40,13 @@ class StudentPendingDocumentController extends Controller
         Student::where('id', $request->studentId)->update([
             'lead_status' => $request->leadStatus
         ]);
+
+        $leadHistory = new LeadHistory();
+        $leadHistory->name = $request->leadStatus;
+        $leadHistory->created_by = auth()->user()->id;
+        $leadHistory->student_id = $request->studentId;
+        $leadHistory->date_created = Carbon::now();
+        $leadHistory->save();
         return redirect()->back()->with('success', 'change the lead status');
     }
 }

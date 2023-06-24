@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Recruiter;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,7 +24,8 @@ class RMController extends Controller
         $totalRecruiter = Recruiter::count();
         $totalCourse = Course::count();
         $totalCountry = Country::count();
-        return view('rmanager.dashboard',compact('totalCollege', 'totalCourse', 'totalStudent', 'totalRecruiter', 'totalCountry'));
+        $user = User::where('role', 'rm')->where('id', Auth::user()->id)->first();
+        return view('rmanager.dashboard',compact('totalCollege', 'totalCourse', 'totalStudent', 'totalRecruiter', 'totalCountry', 'user'));
     }
     
      public function rmrecruiter()

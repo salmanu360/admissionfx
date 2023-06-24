@@ -180,6 +180,9 @@ Route::prefix('admin')->group(static function () {
         Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
         Route::get('/user/application', [UserController::class, 'application'])->name('user.application');
         Route::get('/user/rm', [UserController::class, 'rm'])->name('user.rm');
+        Route::get('/user/lockrm', [UserController::class, 'lockrm'])->name('user.lockrm');
+        Route::get('/user/changeRMStatus/{id}', [UserController::class, 'changeRMStatus'])->name('user.changeRMStatus');
+        Route::get('/user/rm-unlock-history', [UserController::class, 'rmunlockhistory'])->name('user.rm-unlock-history');
 
         //grading scheme
         Route::get('/grading/scheme', [GradingSchemeController::class, 'index'])->name('grading.index');

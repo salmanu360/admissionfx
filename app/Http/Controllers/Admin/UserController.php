@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Recruiter;
 use App\Models\RecruiterPassword;
+use App\Models\RmUnlockHistory;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\StudentPassword;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +32,40 @@ class UserController extends Controller
     {
         $users = User::where('role','rm')->latest()->get();
         return view('admin.user.rm', compact('users'));
+    }
+    public function lockrm()
+    {
+        $users = User::where('role','rm')->latest()->get();
+        return view('admin.user.lockrm', compact('users'));
+    }
+
+
+    public function rmunlockhistory()
+    {
+        $histories = RmUnlockHistory::orderBy('date_created', 'DESC')->get();
+        return view('admin.user.lockrmHistory', compact('histories'));
+    }
+
+    public function changeRMStatus($id)
+    {
+
+        $user = User::where('id',$id)->where('role','rm')->first();
+        if ($user->lock_user == 1){
+            $user->lock_user = 0;
+        }elseif ($user->lock_user == 0){
+            $user->lock_user = 1;
+        }
+        $user->update();
+
+        $rmHistory = new RmUnlockHistory();
+        $rmHistory->rm_id =$id;
+        $rmHistory->lock_user = $user->lock_user;
+        $rmHistory->created_by = auth()->user()->id;
+        $rmHistory->date_created =Carbon::now();
+        $rmHistory->save();
+        Session::flash('success_message', 'User updated Successfully');
+        return redirect()->back();
+
     }
     public function create(){
         $roles = Role::all();
