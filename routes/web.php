@@ -110,7 +110,7 @@ Route::middleware(['auth', 'role:rm'])->group(function(){
        Route::get('rm/student/destroy/{id}', [App\Http\Controllers\RM\StudentController::class, 'destroy'])->name('students.destroy');
        Route::PUT('rm/student/team/assign/{id}', [App\Http\Controllers\RM\StudentController::class, 'applicationTeam'])->name('students.team.assign');
        Route::put('rm/student/password/change/{id}', [App\Http\Controllers\RM\StudentController::class, 'changePassword'])->name('students.password');
-       
+       Route::get('/rm/student/rmUnlockRequest/{id}', [App\Http\Controllers\RM\StudentController::class, 'rmUnlockRequest'])->name('student.rmUnlockRequest');
         //recruiter
        Route::get('rm/recruiter', [App\Http\Controllers\RM\RecruiterController::class, 'index'])->name('recruiters.index');
        Route::get('rm/recruiter/downloadFile/{file}/{type}', [App\Http\Controllers\RM\RecruiterController::class, 'downloadFile'])->name('recruiters.downloadFile');

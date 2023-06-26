@@ -183,8 +183,10 @@ Route::prefix('admin')->group(static function () {
         Route::get('/user/rm', [UserController::class, 'rm'])->name('user.rm');
         Route::get('/user/lockrm', [UserController::class, 'lockrm'])->name('user.lockrm');
         Route::get('/user/changeRMStatus/{id}', [UserController::class, 'changeRMStatus'])->name('user.changeRMStatus');
+        Route::get('/user/unlockrm/{id}', [UserController::class, 'unlockrm'])->name('user.unlockrm');
+        Route::get('/user/lockrmaction/{id}', [UserController::class, 'lockrmaction'])->name('user.lockrmaction');
         Route::get('/user/rm-unlock-history', [UserController::class, 'rmunlockhistory'])->name('user.rm-unlock-history');
-        Route::get('/user/rmUnlockRequest/{id}', [UserController::class, 'rmUnlockRequest'])->name('user.rmUnlockRequest');
+        
         Route::get('/user/rm-unlock-Requests', [UserController::class, 'rmUnlockRequests'])->name('user.rm-unlock-Requests');
 
         //grading scheme

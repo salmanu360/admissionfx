@@ -558,17 +558,16 @@
                         <li>
                             <a href="{{ route('user.index') }}">Users</a>
                         </li>
-                        <li>
-                            <a href="{{ route('user.lockrm') }}">Lock/Unlock RM</a>
-                        </li>
+                        
                         <li>
                             <a href="{{ route('role.index') }}">Roles</a>
                         </li>
                         <li><a href="{{ route('permission.index') }}">Permissions</a> </li>
                         <li><a href="{{ route('user.application') }}">Application Team</a> </li>
                         <li><a href="{{ route('user.rm') }}">RM</a> </li>
-                        <li><a href="{{ route('user.rm-unlock-history') }}">RM History</a> </li>
-                        <li><a href="{{ route('user.rm-unlock-Requests') }}">RM Requests</a> </li>
+                        <li><a href="{{ route('user.lockrm') }}">Lock/Unlock RM</a></li>
+                        <li><a href="{{ route('user.rm-unlock-history') }}">RM UN Lock History</a> </li>
+                        <li><a href="{{ route('user.rm-unlock-Requests') }}">RM Requests for unlock</a> </li>
                     </ul>
                 </li>
                 

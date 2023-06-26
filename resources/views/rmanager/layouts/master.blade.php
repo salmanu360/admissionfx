@@ -148,6 +148,41 @@
 
             </div>
         </div>
+        <!--  END CONTENT PART  -->
+
+        @if(auth()->user()->role == 'rm')
+            @php
+            $user = \App\Models\User::where('id', auth()->user()->id)->where('lock_user', 1)->first();
+            @endphp
+        @if($user)
+        <div class="modal  show" id="lockrmStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal3"> Account Lock</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span class="text text-primary rmRequestSpan"></span>
+                        <h6>Your account has been locked by admin, please contact to the admin for furthur procedure</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-success requestUnlockRM"  onclick="requestUnlockRM({{auth()->user()->id}})">Unlock Request</button> -->
+                        <a class="btn btn-success" href="{{route('student.rmUnlockRequest',auth()->user()->id)}}">Unlock Request</a>
+                        
+                        <form method="POST" action="{{ route('role.logout') }}">
+                            @csrf
+                            <a class="btn btn-danger" href="{{route('role.logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Log Out</a>
+                        </form>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+            @endif
+            @endif
+    </div>
+    <!-- END MAIN CONTAINER -->
+
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{{asset('modern-light-menu/assets/js/libs/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('modern-light-menu/bootstrap/js/popper.min.js')}}"></script>
@@ -198,7 +233,7 @@
                 });
 
                 $.ajax({
-                    url: SITEURL + "/admin/user/rmUnlockRequest/" + id,
+                    url: SITEURL + "/rm/student/rmUnlockRequest/" + id,
                     type: 'GET',
                     success: function (response)
                     {
@@ -295,3 +330,24 @@
     @yield('js')
 </body>
 </html>
+
+<script>
+        @if($message = Session::get('success_message'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ $message }}");
+  @endif
+</script>
+    @if ($errors->any())
+    <ul>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'some field are required',
+            });
+        </script>
+    </ul>
+    @endif

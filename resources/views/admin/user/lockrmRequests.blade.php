@@ -31,14 +31,14 @@
                                 $user = \App\Models\User::where('id', $request->rm_id)->first();
                             @endphp
                             <tr>
-                                <td>{{$loop->index + 1}}</td>
+                                <td>{{$loop->index + 1}} {{$request->status}}</td>
                                 <td>{{$request->id}}</td>
                                 <td>{{$user->name}} ({{$user->email}})</td>
                                 <td>
                                     @if($request->status == 1)
                                         <a class="badge bg-success btn-rounded" style="color: #fff;" >Approved</a>
                                     @else
-                                        <a class="badge bg-success btn-rounded" style="color: #fff;" >Un Unapproved</a>
+                                        <a class="badge bg-danger btn-rounded" style="color: #fff;" >Un Unapproved</a>
                                     @endif
                                 </td>
                                 <td>{{$request->date_created}}</td>

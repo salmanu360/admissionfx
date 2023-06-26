@@ -53,28 +53,33 @@ class UserController extends Controller
         return view('admin.user.lockrmRequests', compact('requests'));
     }
 
-    public function changeRMStatus($id)
+    public function unlockrm($id)
     {
-        $user = User::where('id',$id)->where('role','rm')->first();
-        if ($user->lock_user == 1){
-            $user->lock_user = 0;
-        }elseif ($user->lock_user == 0){
-            $user->lock_user = 1;
-        }
-        $user->update();
-
+        // $user = User::where('id',$id)->where('role','rm')->first();
+        User::where('id',$id)->update(['lock_user' => 0]);
         $rmHistory = new RmUnlockHistory();
         $rmHistory->rm_id =$id;
-        $rmHistory->lock_user = $user->lock_user;
+        $rmHistory->lock_user = 0;
         $rmHistory->created_by = auth()->user()->id;
-        if($user->lock_user == 0) {
-            $rmHistory->save();
-        }
-
-        Session::flash('success_message', 'User updated Successfully');
+        $rmHistory->save();
+        $RmUnlockRequestHistoryupdate = RmUnlockRequest::where('rm_id',$id)->update(['status'=>1]);
+        Session::flash('success_message', 'User UN Lock Successfully');
         return redirect()->back();
+
     }
 
+    public function lockrmaction($id)
+    {
+        /* $user = User::where('id',$id)->where('role','rm')->first();
+        $user->lock_user == 1;
+        $user->update(); */
+
+        User::where('id',$id)->update(['lock_user' => 1]);
+        Session::flash('success_message', 'User Lock Successfully');
+        return redirect()->back();
+
+    }
+    
     public function rmUnlockRequest($id)
     {
         $user = User::where('id',$id)->where('role','rm')->where('lock_user', 1)->first();

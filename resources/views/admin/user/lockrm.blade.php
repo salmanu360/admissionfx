@@ -35,7 +35,7 @@
                                 <td>{{$user->role}}</td>
                                 <td>
                                     @if($user->lock_user == 1)
-                                        <a class="badge bg-success btn-rounded" style="color: #fff;">LOCK</a>
+                                        <a class="badge bg-danger btn-rounded" style="color: #fff;">LOCK</a>
                                     @else
                                         <a class="badge bg-success btn-rounded" style="color: #fff;" >UNLock</a>
                                     @endif
@@ -43,9 +43,9 @@
 {{--                                href="{{route('user.changeRMStatus', $user->id)}}"--}}
                                 <td class="text-centers">
                                     @if($user->lock_user == 1)
-                                        <a class="text text-danger btn-sm changeRMStatus" style="color: white" href="javascript:void(0);" rel="{{ $user->id }}" onclick="changeRMStatus('{{$user->id}}','user/changeRMStatus');"><i class="fa fa-lock"></i></a>
+                                    <a style="color:red" onclick="return confirm('Are you sure you want to unlock this RM?')" href="{{route('user.unlockrm', $user->id)}}"><i class="fa fa-unlock" title="Unlock"></i></a>
                                     @else
-                                        <a class="text text-danger btn-sm changeRMStatus" style="color: white" href="javascript:void(0);" rel="{{ $user->id }}" onclick="changeRMStatus('{{$user->id}}','user/changeRMStatus');"><i class="fa fa-unlock"></i></a>
+                                    <a style="color:red" onclick="return confirm('Are you sure you want to lock this RM?')" href="{{route('user.lockrmaction', $user->id)}}"><i class="fa fa-lock" title="Lock"></i></a>
                                     @endif
                                     
                                     <a  href="{{route('user.edit', $user->id)}}"><i class="far fa-edit"></i></a>
@@ -90,13 +90,8 @@
     <script>
         function changeRMStatus(id,changeRMStatus){
             var SITEURL = '{{ URL::to('') }}';
-
             var id = id;
-
-
             var changeRMStatus = changeRMStatus;
-
-
             Swal.fire({
                 title: 'Are you sure?',
                 text: "YouAre you sure want to change RM status",

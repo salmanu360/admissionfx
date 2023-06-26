@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('rmanager.layouts.master')
 @section('content')
 <div class="page-header">
     <div class="page-title">

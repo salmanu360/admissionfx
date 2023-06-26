@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\RM\LeadAssignNotification;
 use Illuminate\Support\Facades\Notification;
-
+use App\Models\RmUnlockRequest;
 class StudentController extends Controller
 {
 
@@ -30,6 +30,19 @@ class StudentController extends Controller
     public function create()
     {
         return view('rmanager.student.add');
+    }
+
+    public function rmUnlockRequest($id)
+    {
+        $user = User::where('id',$id)->first();
+        if ($user) {
+            $rmRequest = new RmUnlockRequest();
+            $rmRequest->rm_id = $id;
+            $rmRequest->status = 0;
+            $rmRequest->save();
+            Session::flash('success_message', 'UN Lock request has been successfully sento to user');
+            return redirect()->back();
+        }
     }
 
     public function store(Request $request)
