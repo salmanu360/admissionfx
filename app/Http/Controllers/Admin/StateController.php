@@ -22,6 +22,11 @@ class StateController extends Controller
         return view('admin.state.index', compact('states'));
     }
 
+    public function getStates($id)
+    {
+         $country_id = (int) $id;
+         return State::where('country_id', $country_id)->get();
+    }
 
     public function create()
     {
@@ -53,7 +58,7 @@ class StateController extends Controller
     {
         $state = State::find($id);
         $Country = Country::all();
-        return view('admin.state.edit', compact('state','Country'));
+        return view('admin.state.edit', compact('state', 'Country'));
 
     }
 
@@ -63,11 +68,11 @@ class StateController extends Controller
         $name = $request->input('name');
         $state = State::find($id);
         $state->name = ucfirst($name);
-        $state->slug =  Str::slug(ucfirst($name));
+        $state->slug = Str::slug(ucfirst($name));
         $state->country_id = $request->country_id;
-        if(empty($request->status)){
+        if (empty($request->status)) {
             $state->status = 0;
-        } else{
+        } else {
             $state->status = 1;
         }
         $state->update();

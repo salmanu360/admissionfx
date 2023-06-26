@@ -35,14 +35,20 @@
                                 <td>{{$user->role}}</td>
                                 <td>
                                     @if($user->lock_user == 1)
-                                        <a class="badge bg-success btn-rounded" style="color: #fff;" href="{{route('user.changeRMStatus', $user->id)}}">Active</a>
+                                        <a class="badge bg-success btn-rounded" style="color: #fff;">LOCK</a>
                                     @else
-                                        <a class="badge bg-danger btn-rounded" style="color: #fff;" href="{{route('user.changeRMStatus', $user->id)}}">Deactived</a>
+                                        <a class="badge bg-success btn-rounded" style="color: #fff;" >UNLock</a>
                                     @endif
                                 </td>
+{{--                                href="{{route('user.changeRMStatus', $user->id)}}"--}}
                                 <td class="text-centers">
-
-                                    <a href="{{route('user.edit', $user->id)}}"><i class="far fa-edit"></i></a>
+                                    @if($user->lock_user == 1)
+                                        <a class="text text-danger btn-sm changeRMStatus" style="color: white" href="javascript:void(0);" rel="{{ $user->id }}" onclick="changeRMStatus('{{$user->id}}','user/changeRMStatus');"><i class="fa fa-lock"></i></a>
+                                    @else
+                                        <a class="text text-danger btn-sm changeRMStatus" style="color: white" href="javascript:void(0);" rel="{{ $user->id }}" onclick="changeRMStatus('{{$user->id}}','user/changeRMStatus');"><i class="fa fa-unlock"></i></a>
+                                    @endif
+                                    
+                                    <a  href="{{route('user.edit', $user->id)}}"><i class="far fa-edit"></i></a>
                                     <a class="text text-danger btn-sm deleteRecord" style="color: white" href="javascript:void(0);" rel="{{ $user->id }}" rel1="delete_recruiter" onclick="deleterecord('{{$user->id}}','user/destroy');">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
@@ -82,6 +88,31 @@
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        function changeRMStatus(id,changeRMStatus){
+            var SITEURL = '{{ URL::to('') }}';
+
+            var id = id;
+
+
+            var changeRMStatus = changeRMStatus;
+
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "YouAre you sure want to change RM status",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Change RM Status!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = SITEURL + "/admin/" + changeRMStatus + "/" + id;
+                }
+            })
+
+        }
+
         function deleterecord(id,deletefunction){
             var SITEURL = '{{ URL::to('') }}';
 

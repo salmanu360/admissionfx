@@ -75,6 +75,7 @@ Route::prefix('admin')->group(static function () {
 
         //States
         Route::get('/states', [App\Http\Controllers\Admin\StateController::class, 'index'])->name('states.index');
+        Route::get('/getStates/{id}', [App\Http\Controllers\Admin\StateController::class, 'getStates'])->name('states.getStates');
         Route::get('/states/create', [App\Http\Controllers\Admin\StateController::class, 'create'])->name('states.create');
         Route::post('/states/store', [App\Http\Controllers\Admin\StateController::class, 'store'])->name('states.store');
         Route::get('/states/edit/{id}', [App\Http\Controllers\Admin\StateController::class, 'edit'])->name('states.edit');
@@ -183,6 +184,8 @@ Route::prefix('admin')->group(static function () {
         Route::get('/user/lockrm', [UserController::class, 'lockrm'])->name('user.lockrm');
         Route::get('/user/changeRMStatus/{id}', [UserController::class, 'changeRMStatus'])->name('user.changeRMStatus');
         Route::get('/user/rm-unlock-history', [UserController::class, 'rmunlockhistory'])->name('user.rm-unlock-history');
+        Route::get('/user/rmUnlockRequest/{id}', [UserController::class, 'rmUnlockRequest'])->name('user.rmUnlockRequest');
+        Route::get('/user/rm-unlock-Requests', [UserController::class, 'rmUnlockRequests'])->name('user.rm-unlock-Requests');
 
         //grading scheme
         Route::get('/grading/scheme', [GradingSchemeController::class, 'index'])->name('grading.index');

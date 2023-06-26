@@ -173,7 +173,6 @@ var App = function() {
             var windowWidth = window.innerWidth;
             if ( windowWidth > MediaSize.md ) {
                 toggleFunction.search();
-                console.log('On Desktop Refresh');
                 desktopFunctions.preventAccordionOnClick();
             }
         },
@@ -184,7 +183,6 @@ var App = function() {
                 if ( windowWidth > MediaSize.md ) {
                     toggleFunction.search();
                     toggleFunction.deactivateScroll();
-                    console.log('On Desktop Resize');
                 }
             });
         }

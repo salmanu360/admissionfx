@@ -749,6 +749,7 @@ class ComposerStaticInitcba45eaecae0bef26ef15820d919877e
         'App\\Models\\RecruiterPassword' => __DIR__ . '/../..' . '/app/Models/RecruiterPassword.php',
         'App\\Models\\RegionalManager' => __DIR__ . '/../..' . '/app/Models/RegionalManager.php',
         'App\\Models\\RmUnlockHistory' => __DIR__ . '/../..' . '/app/Models/RmUnlockHistory.php',
+        'App\\Models\\RmUnlockRequest' => __DIR__ . '/../..' . '/app/Models/RmUnlockRequest.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\RoleHasPermission' => __DIR__ . '/../..' . '/app/Models/RoleHasPermission.php',
         'App\\Models\\Signature' => __DIR__ . '/../..' . '/app/Models/Signature.php',

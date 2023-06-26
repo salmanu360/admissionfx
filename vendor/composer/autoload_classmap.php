@@ -124,6 +124,7 @@ return array(
     'App\\Models\\RecruiterPassword' => $baseDir . '/app/Models/RecruiterPassword.php',
     'App\\Models\\RegionalManager' => $baseDir . '/app/Models/RegionalManager.php',
     'App\\Models\\RmUnlockHistory' => $baseDir . '/app/Models/RmUnlockHistory.php',
+    'App\\Models\\RmUnlockRequest' => $baseDir . '/app/Models/RmUnlockRequest.php',
     'App\\Models\\Role' => $baseDir . '/app/Models/Role.php',
     'App\\Models\\RoleHasPermission' => $baseDir . '/app/Models/RoleHasPermission.php',
     'App\\Models\\Signature' => $baseDir . '/app/Models/Signature.php',

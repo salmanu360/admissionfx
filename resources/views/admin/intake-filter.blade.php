@@ -31,6 +31,35 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
+                                                        <label for="name">Country Name</label>
+                                                        <select name="country" id="country" class="form-control"
+                                                                style="height: calc(1.4em + 1.4rem + 0px)">
+                                                            <option>Select Country</option>
+                                                            @foreach ($countries as $country)
+                                                                <option value="{{ $country->id }}">{{ $country->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+
+                                                        <label for="state_id">State</label>
+                                                        <select class="form-control  state_id" name="state_id"
+                                                                id="state_id" style="height: calc(1.4em + 1.4rem + 0px)" >
+                                                            <option value="" selected disabled hidden>
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
                                                         <label for="intake">Course Name</label>
                                                         <select name="course" class="form-control"
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
@@ -59,21 +88,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label for="name">Country Name</label>
-                                                        <select name="country" class="form-control"
-                                                            style="height: calc(1.4em + 1.4rem + 0px)">
-                                                            <option>Select Country</option>
-                                                            @foreach ($countries as $country)
-                                                                <option value="{{ $country->id }}">{{ $country->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -268,6 +283,30 @@
             })
 
         }
+
+
+
+        $(document).on('change','#country',function (){
+            var SITEURL = '{{ URL::to('') }}';
+            let  country=$(this).find(':selected').val();
+            country = parseInt(country);
+            $('.state_id').html('<option selected value="">Select State</option>');
+            $.ajax({
+                url: SITEURL + "/admin/getStates/" + country,
+                method: 'GET',
+                success(response) {
+
+                    if(!$.isEmptyObject(response)) {
+                        $.each(response,function (i,value) {
+                            $('.state_id').append('<option  value="' +value.id + '">' +value.name + '</option>');
+                        });
+                    }
+                }
+            });
+        });
+
+
+
     </script>
 
     @if ($errors->any())

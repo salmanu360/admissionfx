@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Recruiter;
 use App\Models\RecruiterPassword;
 use App\Models\RmUnlockHistory;
+use App\Models\RmUnlockRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
@@ -46,9 +47,14 @@ class UserController extends Controller
         return view('admin.user.lockrmHistory', compact('histories'));
     }
 
+    public function rmUnlockRequests()
+    {
+        $requests = RmUnlockRequest::orderBy('date_created', 'DESC')->get();
+        return view('admin.user.lockrmRequests', compact('requests'));
+    }
+
     public function changeRMStatus($id)
     {
-
         $user = User::where('id',$id)->where('role','rm')->first();
         if ($user->lock_user == 1){
             $user->lock_user = 0;
@@ -61,16 +67,31 @@ class UserController extends Controller
         $rmHistory->rm_id =$id;
         $rmHistory->lock_user = $user->lock_user;
         $rmHistory->created_by = auth()->user()->id;
-        $rmHistory->date_created =Carbon::now();
-        $rmHistory->save();
+        if($user->lock_user == 0) {
+            $rmHistory->save();
+        }
+
         Session::flash('success_message', 'User updated Successfully');
         return redirect()->back();
-
     }
+
+    public function rmUnlockRequest($id)
+    {
+        $user = User::where('id',$id)->where('role','rm')->where('lock_user', 1)->first();
+        if ($user) {
+            $rmRequest = new RmUnlockRequest();
+            $rmRequest->rm_id = $id;
+            $rmRequest->save();
+        }
+
+        return redirect()->back();
+    }
+
     public function create(){
         $roles = Role::all();
         return view('admin.user.add', compact('roles'));
-    } 
+    }
+
     public function store(Request $request){
         $request->validate([
             'name'=>'required',

@@ -149,7 +149,36 @@
             </div>
         </div>
         <!--  END CONTENT PART  -->
-       
+
+        @if(auth()->user()->role == 'rm')
+            @php
+            $user = \App\Models\User::where('id', auth()->user()->id)->where('lock_user', 1)->first();
+            @endphp
+        @if($user)
+        <div class="modal  show" id="lockrmStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal3"> Account Lock</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span class="text text-primary rmRequestSpan"></span>
+                        <h6>Your account has been locked by admin, please contact to the admin for furthur procedure</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success requestUnlockRM"  onclick="requestUnlockRM({{auth()->user()->id}})">Unlock Request</button>
+{{--                        <button type="button" class="btn btn-danger" data-dismiss="modal">Logout</button>--}}
+                        <form method="POST" action="{{ route('role.logout') }}">
+                            @csrf
+                            <a class="btn btn-danger" href="{{route('role.logout')}}" onclick="event.preventDefault();this.closest('form').submit();">Log Out</a>
+                        </form>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+            @endif
+            @endif
     </div>
     <!-- END MAIN CONTAINER -->
 
@@ -186,7 +215,33 @@
     <script>
         $(document).ready(function() {
             App.init();
+
+
+            // $("#lockrmStatus").modal('show');
+            $('#lockrmStatus').modal({backdrop: 'static', keyboard: false});
+
+
+
+            requestUnlockRM = function (id)
+            {
+                var SITEURL = '{{ URL::to('') }}';
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+                $.ajax({
+                    url: SITEURL + "/admin/user/rmUnlockRequest/" + id,
+                    type: 'GET',
+                    success: function (response)
+                    {
+                        $('rmRequestSpan').html('Your request for unlock account has been sent to admin.');
+                    }
+                });
+            }
         });
+
     </script>
     <script src="{{asset('modern-light-menu/assets/js/custom.js')}}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
@@ -252,7 +307,6 @@
     <!-- END PAGE LEVEL SCRIPTS -->
     
     <!-- ::::::::::::::::::::::::::::::::::: Copy, CSV, Excel, Print  Buttons ::::::::::::::::::::::::::::::::::::::: -->
- 
  <script>
      $(document).ready(function() {
          App.init();

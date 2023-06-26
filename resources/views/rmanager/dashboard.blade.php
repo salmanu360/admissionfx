@@ -16,8 +16,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="row layout-top-spacing">
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget widget-card-four">
@@ -121,18 +119,4 @@
     </div>
 
 </div>
-
-
-
-
-
-
-<div class="modal  show" id="lockrmStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl customWidth" role="document">
-        <div class="modal-content lockrmStatusModalBody">
-            ....
-        </div>
-    </div>
-</div>
-
 @endsection

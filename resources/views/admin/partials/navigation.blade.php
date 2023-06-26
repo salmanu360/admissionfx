@@ -568,6 +568,7 @@
                         <li><a href="{{ route('user.application') }}">Application Team</a> </li>
                         <li><a href="{{ route('user.rm') }}">RM</a> </li>
                         <li><a href="{{ route('user.rm-unlock-history') }}">RM History</a> </li>
+                        <li><a href="{{ route('user.rm-unlock-Requests') }}">RM Requests</a> </li>
                     </ul>
                 </li>
                 
