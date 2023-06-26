@@ -31,7 +31,7 @@
                                 $user = \App\Models\User::where('id', $request->rm_id)->first();
                             @endphp
                             <tr>
-                                <td>{{$loop->index + 1}} {{$request->status}}</td>
+                                <td>{{$loop->index + 1}}</td>
                                 <td>{{$request->id}}</td>
                                 <td>{{$user->name}} ({{$user->email}})</td>
                                 <td>
