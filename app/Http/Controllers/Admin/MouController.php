@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MouDetail;
 use Dompdf\Dompdf;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MouController extends Controller
 {
@@ -29,6 +29,28 @@ class MouController extends Controller
         $dompdf->render();
         return $dompdf->stream('uploads/recruiter/mou/mou.pdf');
 
-        
+
     }
+
+
+    public function pdfdownloadfresh($file)
+    {
+        $mouDetails = MouDetail::where('mou_agreement_file', $file)->first();
+        $filePath = Storage::path('/public/uploads/recruiter/mou/' . $mouDetails->mou_agreement_file);
+        $headers = ['Content-Type: application/pdf'];
+        $fileName = time() . '.pdf';
+
+        return response()->download($filePath, $fileName, $headers);
+    }
+
+    public function pdfViewfresh($file)
+    {
+        $mouDetails = MouDetail::where('mou_agreement_file', $file)->first();
+        $filePath = Storage::path('/public/uploads/recruiter/mou/' . $mouDetails->mou_agreement_file);
+        $headers = ['Content-Type: application/pdf'];
+        $fileName = time() . '.pdf';
+
+        return response()->file($filePath, $headers);
+    }
+
 }
