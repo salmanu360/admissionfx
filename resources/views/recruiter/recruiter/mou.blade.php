@@ -1444,7 +1444,12 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3 d-flex" style="flex-direction: column; justify-content: center;">
-                                <img src="http://admissionfx.com/public/{{ $row->image }}" class="w-100">
+                            @if(!empty($row->image))
+                            <img src="http://admissionfx.com/public/{{ $row->image }}" class="w-100">
+                            @else
+                                n/a
+                            @endif
+                                
                                 <h5>Ms./Mr. {{ Auth::user()->name }}</h5>
 
                                 <h5>
