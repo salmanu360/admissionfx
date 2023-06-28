@@ -1,17 +1,16 @@
 @php
     use App\Models\Signature;
-    use App\Models\MouDetail;
-    
+    use App\Models\MouDetail
 @endphp
 
 <head>
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
-    <link href="{{ asset('modern-light-menu/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('modern-light-menu/assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('modern-light-menu/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('modern-light-menu/assets/css/plugins.css') }}" rel="stylesheet" type="text/css"/>
     <!--<link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">-->
     <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css"
-        rel="stylesheet">
-    <link href="{{ asset('modern-light-menu/assets/css/jquery.signature.css') }}" rel="stylesheet" type="text/css" />
+          rel="stylesheet">
+    <link href="{{ asset('modern-light-menu/assets/css/jquery.signature.css') }}" rel="stylesheet" type="text/css"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         @media print {
@@ -19,6 +18,18 @@
                 display: none;
             }
         }
+
+        @media screen
+        {
+            .no-print{}
+            .noScreen{display:none;}
+        }
+        @media print
+        {
+            .no-print{display:none;}
+            .noScreen{}
+        }
+
 
         .kbw-signature {
             width: 100%;
@@ -100,7 +111,8 @@
                     <div class="col-md-11 p-0">
                         <p>
                             “<b>{{ $recruiter->company_name }}</b>” of Companies is a company located at
-                            {{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }},{{ $recruiter->country }},{{ $recruiter->postal_zip }}
+                            {{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }}
+                            ,{{ $recruiter->country }},{{ $recruiter->postal_zip }}
                             incorporated under the laws of company incorporation, hereinafter referred to as “<b>Second
                                 Party</b>”.
                             <br>
@@ -696,9 +708,11 @@
                             <li>enrolment applications to offers (i.e., Offers divided by enrolment applications);</li>
                             <li>offers to actual enrolment (Enrolment divided by Offers);</li>
                             <li>the number of Student Visa refusals for the Prospective Students recruited by the Second
-                                Party; and</li>
+                                Party; and
+                            </li>
                             <li>quality, accuracy and currency of information and advice provided by the Second Party to
-                                students.</li>
+                                students.
+                            </li>
                         </ul>
 
                     </div>
@@ -929,7 +943,8 @@
                             </li>
                             <li>a court of competent jurisdiction or any governmental or regulatory authority, as may be
                                 required by law. The College shall be immediately notified if and when such requirement
-                                arises;</li>
+                                arises;
+                            </li>
                         </ul>
                         <b>(d)</b> Ensure that its employees, officers, representatives, agents and advisors do not
                         disclose
@@ -1024,24 +1039,24 @@
                         <div class="table-responsive" style="width: 400px;">
                             <table class="table table-primary">
                                 <thead>
-                                    <tr>
-                                        <th class="text-center" scope="col" colspan="2">Commission Structure
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col" class="text-center">No. Of Application</th>
-                                        <th scope="col" class="text-center">Share to associates</th>
-                                    </tr>
+                                <tr>
+                                    <th class="text-center" scope="col" colspan="2">Commission Structure
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th scope="col" class="text-center">No. Of Application</th>
+                                    <th scope="col" class="text-center">Share to associates</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="">
-                                        <td scope="row" class="text-center">1 to 20</td>
-                                        <td class="text-center">70%</td>
-                                    </tr>
-                                    <tr class="">
-                                        <td scope="row" class="text-center">21 & above</td>
-                                        <td class="text-center">80%</td>
-                                    </tr>
+                                <tr class="">
+                                    <td scope="row" class="text-center">1 to 20</td>
+                                    <td class="text-center">70%</td>
+                                </tr>
+                                <tr class="">
+                                    <td scope="row" class="text-center">21 & above</td>
+                                    <td class="text-center">80%</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1307,10 +1322,12 @@
                         <ul>
                             <li>i. submit all applications and fees received from any prospective student up to the date
                                 of
-                                termination to2 the First Party;</li>
+                                termination to2 the First Party;
+                            </li>
                             <li>ii. return to the First Party all advertising, promotional or other material relating to
                                 the
-                                contracted educational institutes provided by the First Party; and</li>
+                                contracted educational institutes provided by the First Party; and
+                            </li>
                             <li>iii. cease to use all trademarks, trade names and brand names of the First Party.</li>
                         </ul>
                     </div>
@@ -1345,7 +1362,8 @@
                         <h5><b>SECOND PARTY:</b></h5>
                         <br>
                         <p><b>{{ $recruiter->company_name }}</b></p>
-                        <p><b>{{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }},{{ $recruiter->country }},{{ $recruiter->postal_zip }}</b>
+                        <p><b>{{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }}
+                                ,{{ $recruiter->country }},{{ $recruiter->postal_zip }}</b>
                         </p>
 
 
@@ -1444,17 +1462,14 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3 d-flex" style="flex-direction: column; justify-content: center;">
-                            @if(!empty($row->image))
-                            <img src="http://admissionfx.com/public/{{ $row->image }}" class="w-100">
-                            @else
-                                n/a
-                            @endif
-                                
+
+                                <img src="{{ asset($row->image) }}" class="w-100">
                                 <h5>Ms./Mr. {{ Auth::user()->name }}</h5>
 
                                 <h5>
                                     <b>{{ $recruiter->company_name }}<br>
-                                        {{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }},{{ $recruiter->country }},{{ $recruiter->postal_zip }}</b>
+                                        {{ $recruiter->address }},{{ $recruiter->city }},{{ $recruiter->state }}
+                                        ,{{ $recruiter->country }},{{ $recruiter->postal_zip }}</b>
                                 </h5>
                             </div>
                             <div class="col-md-3"></div>
@@ -1468,48 +1483,63 @@
                             <h5 class="text-center no-print" style="display:block;">Do Your E-Signature.</h5>
                             <div id="sig"></div>
                             <p style="clear: both;">
-                                <button type="button mt-3" class="btn btn-primary no-print" style="display:block;"
-                                    id="svg">Submit</button>
+                                <button type="button" class="btn btn-primary no-print mt-3 e_signature_btn"
+                                        style="display:block;"
+                                        id="svg">Submit
+                                </button>
                             </p>
                         </div>
-                        @php
-                            $mou = MouDetail::where('recruiter_id', auth()->user()->id)->first();
-                        @endphp
-                        <div class="row">
-                            <div class="col-md-12">
-                                    <button type="submit" class="btn btn-success no-print"
-                                        style="display:block;">Generate PDF</button>
-                                <!--@if (!is_null($mou) && file_exists(storage_path('app/public/uploads/recruiter/mou/' . $mou->mou_agreement_file)))-->
-                                <!--    <a href="{{ asset('storage/uploads/recruiter/mou/' . $mou->mou_agreement_file) }}"-->
-                                <!--        target="_blank" class="btn btn-primary no-print" style="display:block;"-->
-                                <!--        download>Download PDF</a>-->
-                                <!--@else-->
-                                <!--@endif-->
+
+                        <div class="row generatepdfrow" style="display: none">
+                            <div class="col-md-10"></div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success no-print"
+                                        style="display:block;">Generate PDF
+                                </button>
 
                             </div>
                         </div>
     </form>
-    <div class="row">
+
+    {{--                        @php--}}
+    {{--                            $mou = MouDetail::where('recruiter_id', auth()->user()->id)->first();--}}
+    {{--                        @endphp--}}
+    {{--                        <div class="row">--}}
+    {{--                            <div class="col-md-12">--}}
+    {{--                                    <button type="submit" class="btn btn-success no-print"--}}
+    {{--                                        style="display:block;">Generate PDF</button>--}}
+    {{--                                @if (!is_null($mou) && file_exists(storage_path('app/public/uploads/recruiter/mou/' . $mou->mou_agreement_file)))--}}
+    {{--                                    <a href="{{ asset('storage/uploads/recruiter/mou/' . $mou->mou_agreement_file) }}"--}}
+    {{--                                        target="_blank" class="btn btn-primary no-print" style="display:block;" download>Download PDF</a>--}}
+    {{--                                @else--}}
+    {{--                                @endif--}}
+
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+
+    <div class="row no-print">
+        <div class="col-md-4"></div>
         <div class="col-md-6">
             <h3>OR Upload Signature</h3>
         </div>
     </div>
-    <form action="{{ route('upload.mouSignature') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('upload.mouSignature') }}" method="post" id="image-upload" class="no-print" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <div class="form-group mt-2">
             <div class="row">
+
                 <div class="col-md-4"></div>
                 <div class="col-md-6">
                     <label for=""></label>
-                    <input type="file" name="mouSignature" id="">
+                    <input type="file" name="mouSignature" id="chose_file" class="no-print">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Upload</button>
+                <button type="submit" class="btn btn-primary  file_upload_signature no-print ">Upload</button>
             </div>
         </div>
     </form>
@@ -1518,26 +1548,27 @@
     </div>
     </section>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <!--<script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>-->
     <script type="text/javascript" src="{{ asset('modern-light-menu/assets/js/jquery.signature.js') }}"></script>
     <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
 
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             var sig = $('#sig').signature();
-            $('#disable').click(function() {
+            $('#disable').click(function () {
                 var disable = $(this).text() === 'Disable';
                 $(this).text(disable ? 'Enable' : 'Disable');
                 sig.signature(disable ? 'disable' : 'enable');
             });
-            $('#clear').click(function() {
+            $('#clear').click(function () {
                 sig.signature('clear');
             });
-            $('#json').click(function() {
+            $('#json').click(function () {
                 // 		alert(sig.signature('toJSON'));
             });
-            $('#svg').click(function() {
+            $('#svg').click(function () {
                 // 		alert(sig.signature('toSVG'));
                 var pngData = sig.signature('toDataURL', 'public/signature');
 
@@ -1556,14 +1587,44 @@
                         image: img.src,
                     },
                     dataType: 'json', // The expected data type of the response
-                    success: function(response) {
+                    success: function (response) {
                         // Handle the successful response
-                        console.log('Response:', response);
-                        location.reload();
+                        $('.e_signature_btn').attr('disabled', 'disabled');
+                        $('.file_upload_signature').attr('disabled', 'disabled');
+                        $('#chose_file').attr('disabled', 'disabled');
+                        $('.generatepdfrow').css("display", "");
+                        // location.reload();
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         // Handle the error response
-                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#image-upload').submit(function (e) {
+                e.preventDefault();
+                let formData = new FormData(this);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('upload.mouSignature') }}",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response)
+                        $('.e_signature_btn').attr('disabled', 'disabled');
+                        // $('.file_upload_signature').attr('disabled', 'disabled');
+                        // $('#chose_file').attr('disabled', 'disabled');
+                        $('.generatepdfrow').css("display", "");
+
                     }
                 });
             });

@@ -27,8 +27,8 @@
                             <td>{{$mou->first_name}} {{$mou->last_name}}</td>
                             <td>
                                 @if ($mou->mou_agreement_file != null)
-                                    <a href="{{ asset('storage/public/uploads/recruiter/mou/' . $mou->mou_agreement_file)}}" target="_blank"><button class="btn btn-info">View</button></a>
-                                    <a href="{{asset('storage/uploads/recruiter/mou/'.$mou->mou_agreement_file)}}" target="_blank" download><button class="btn btn-primary">Download</button></a>
+                                    <a href="{{route('student.mou-view' ,$mou->mou_agreement_file)}}" target="_blank" class="btn btn-info">View</a>
+                                    <a href="{{route('student.mou-download' ,$mou->mou_agreement_file)}}" target="_blank" class="btn btn-primary">Download</a>
                                     @else
                                     N/A
                                 @endif

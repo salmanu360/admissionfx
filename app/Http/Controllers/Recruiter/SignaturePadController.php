@@ -41,7 +41,7 @@ class SignaturePadController extends Controller
         Signature::create([
             'image' => $folderPath . $filename
         ]);
-        return response()->json('success Full upload signature');
+        return response()->json('successfully uploaded signature');
     }
     public function uploadFile(Request $request){
         $signature = new Signature();
@@ -54,11 +54,11 @@ class SignaturePadController extends Controller
             }
         }
         $signature->save();
-        return redirect()->back()->with('success Full upload signature');
+        return response()->json('successfully uploaded signature');
     }
      public function textToPdf()
     {
-
+//        return base_path(). 'public/uploads/recruiter/mou/';
         $dompdf = new Dompdf();
 
         $row = DB::table('signatures')->orderByDesc('id')->first();
@@ -69,12 +69,10 @@ class SignaturePadController extends Controller
         $dompdf->loadHtml($html);
         $dompdf->render();
 
-        $fileName = auth()->user()->name . uniqid() . '.pdf';
-
         $pdfContents = $dompdf->output();
-        $fileName = auth()->user()->name . uniqid() . '.pdf';
-        $filePath = 'public/uploads/recruiter/mou/' . $fileName;
+        $fileName = str_replace(" ","",auth()->user()->name . uniqid() . '.pdf');
 
+        $filePath = '/public/uploads/recruiter/mou/' . $fileName;
         Storage::put($filePath, $pdfContents);
 
         $mouDetail = new MouDetail();

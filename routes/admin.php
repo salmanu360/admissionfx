@@ -230,7 +230,9 @@ Route::prefix('admin')->group(static function () {
        
         //mou
        Route::get('/student/mou', [App\Http\Controllers\Admin\MouController::class, 'index'])->name('student.mou');
-       
+       Route::get('/student/mou-view/{id}', [App\Http\Controllers\Admin\MouController::class, 'pdfViewfresh'])->name('student.mou-view');
+       Route::get('/student/mou-download/{id}', [App\Http\Controllers\Admin\MouController::class, 'pdfdownloadfresh'])->name('student.mou-download');
+
        //profile
        Route::get('admin/profile', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.profile');
        Route::put('admin/profile/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateProfile'])->name('admin.updateProfile');
