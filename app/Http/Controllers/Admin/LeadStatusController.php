@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeadHistory;
 use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -52,4 +53,23 @@ class LeadStatusController extends Controller
     
         return redirect()->back();
     }
+
+
+    public function leadHistory()
+    {
+        $leadHistory = LeadHistory::orderBy('date_created', 'DESC')->get();
+        return view('admin.leadStatus.lead-history', compact('leadHistory'));
+
+    }
+
+    public function leadHistoryDestory($id)
+    {
+
+        $leadHistory = LeadHistory::find($id);
+
+        $leadHistory->delete();
+
+        return redirect()->back();
+    }
+
 }

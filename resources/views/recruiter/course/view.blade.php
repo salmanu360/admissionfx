@@ -24,6 +24,7 @@
                             <th>Intake</th>
                             <th>Tuition fee</th>
                             <th>Application Fee</th>
+                            <th>Program</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,14 @@
                             <td>{{date('d M Y',strtotime($course->intake))}}</td>
                             <td>{{$course->tuition_fee}}</td>
                             <td>{{$course->application_fee}}</td>
+                            <td>
+                                @php
+                                    $program = \App\Models\Program::select('id','name')->where('id',$course->program_id)->first();
+                                @endphp
+                                @if(!empty($program->name))
+                                    {{$program->name}}
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>

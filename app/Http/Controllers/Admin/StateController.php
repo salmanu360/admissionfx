@@ -28,6 +28,11 @@ class StateController extends Controller
          return State::where('country_id', $country_id)->get();
     }
 
+    public function getState($id)
+    {
+         return State::where('id', $id)->first();
+    }
+
     public function create()
     {
         $Country = Country::all();

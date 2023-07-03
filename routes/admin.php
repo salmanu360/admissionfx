@@ -76,6 +76,7 @@ Route::prefix('admin')->group(static function () {
         //States
         Route::get('/states', [App\Http\Controllers\Admin\StateController::class, 'index'])->name('states.index');
         Route::get('/getStates/{id}', [App\Http\Controllers\Admin\StateController::class, 'getStates'])->name('states.getStates');
+        Route::get('/getState/{id}', [App\Http\Controllers\Admin\StateController::class, 'getState'])->name('states.getState');
         Route::get('/states/create', [App\Http\Controllers\Admin\StateController::class, 'create'])->name('states.create');
         Route::post('/states/store', [App\Http\Controllers\Admin\StateController::class, 'store'])->name('states.store');
         Route::get('/states/edit/{id}', [App\Http\Controllers\Admin\StateController::class, 'edit'])->name('states.edit');
@@ -117,6 +118,14 @@ Route::prefix('admin')->group(static function () {
         
         Route::post('/apply/course/{id}',[App\Http\Controllers\Admin\StudentApplyController::class, 'studentApply'])->name('course.applyCourse');
         Route::get('/course/apply', [App\Http\Controllers\Admin\CourseController::class, 'apply'])->name('course.apply');
+
+        //Course Category
+         Route::get('/program', [App\Http\Controllers\Admin\ProgramController::class, 'index'])->name('program.index');
+         Route::get('/program/create', [App\Http\Controllers\Admin\ProgramController::class, 'create'])->name('program.create');
+         Route::post('/program/store', [App\Http\Controllers\Admin\ProgramController::class, 'store'])->name('program.store');
+         Route::get('/program/edit/{id}', [App\Http\Controllers\Admin\ProgramController::class, 'edit'])->name('program.edit');
+         Route::post('/program/update/{id}', [App\Http\Controllers\Admin\ProgramController::class, 'update'])->name('program.update');
+         Route::get('/program/destroy/{id}', [App\Http\Controllers\Admin\ProgramController::class, 'destroy'])->name('program.destroy');
 
         //student
         Route::get('/student', [App\Http\Controllers\Admin\StudentController::class, 'index'])->name('student.index');
@@ -212,7 +221,12 @@ Route::prefix('admin')->group(static function () {
         Route::post('/lead/status/create', [LeadStatusController::class, 'create'])->name('leadStatus.create');
         Route::put('/lead/status/update/{id}', [LeadStatusController::class, 'update'])->name('leadStatus.update');
         Route::get('/lead/destroy/{id}', [LeadStatusController::class, 'destroy'])->name('leadStatus.destroy');
-        
+
+         //lead Status
+         Route::get('/leads/lead-history', [LeadStatusController::class, 'leadHistory'])->name('leads.lead-history');
+         Route::get('/leads/lead-history-destroy/{id}', [LeadStatusController::class, 'leadHistoryDestory'])->name('leads.lead-history-destroy');
+
+
          //reports
          Route::get('/reports', [ReportController::class, 'index'])->name('admin.report');
          Route::get('/basic_email', [ReportController::class, 'basic_email'])->name('admin.basic_email');

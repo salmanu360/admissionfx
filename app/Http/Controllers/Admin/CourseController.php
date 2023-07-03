@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\College;
 use App\Models\Country;
 use App\Models\Course;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -82,12 +84,14 @@ class CourseController extends Controller
     public function create()
     {
         $colleges = College::all();
-        return view('admin.course.add', compact('colleges'));
+        $countries = Country::all();
+        $categories = Category::all();
+        $programs = Program::all();
+        return view('admin.course.add', compact('colleges','countries', 'categories', 'programs'));
     }
 
     public function store(Request $request)
     {
-
         $validateData = $request->validate([
             'name' => 'required|unique:courses',
             'intake' => 'required',
@@ -98,6 +102,10 @@ class CourseController extends Controller
             'tags' => 'nullable',
             'requirement' => 'required',
             'college_id' => 'required',
+            'country' => 'required',
+            'state_id' => 'nullable',
+            'program' => 'required',
+            'category' => 'nullable',
             'status' => 'nullable',
         ]);
 
@@ -112,7 +120,11 @@ class CourseController extends Controller
         $course->tags = $request->tags;
         $course->requirement = $request->requirement;
         $course->college_id = $request->college_id;
-        
+        $course->country_id = $request->country;
+        $course->state_id = $request->state_id;
+        $course->program_id = $request->program;
+        $course->category_id = $request->category;
+
         $course->created_by = Auth()->user()->id;
         $course->created_by_name = Auth()->user()->name;
         
@@ -139,7 +151,10 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $colleges = College::all();
-        return view('admin.course.edit', compact('colleges', 'course'));
+        $countries = Country::all();
+        $categories = Category::all();
+        $programs = Program::all();
+        return view('admin.course.edit', compact('colleges', 'course','countries', 'categories', 'programs'));
     }
 
     public function update(Request $request, $id)
@@ -154,6 +169,10 @@ class CourseController extends Controller
             'tags' => 'nullable',
             'requirement' => 'required',
             'college_id' => 'required',
+            'country' => 'required',
+            'state_id' => 'nullable',
+            'program' => 'required',
+            'category' => 'nullable',
             'status' => 'nullable',
         ]);
 
@@ -168,6 +187,10 @@ class CourseController extends Controller
         $course->tags = $request->tags;
         $course->requirement = $request->requirement;
         $course->college_id = $request->college_id;
+        $course->country_id = $request->country;
+        $course->state_id = $request->state_id;
+        $course->program_id = $request->program;
+        $course->category_id = $request->category;
         
         $course->created_by = Auth()->user()->id;
         $course->created_by_name = Auth()->user()->name;

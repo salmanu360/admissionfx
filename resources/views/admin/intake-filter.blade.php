@@ -5,6 +5,8 @@
         use App\Models\Course;
         use App\Models\Country;
         use App\Models\Student;
+        use App\Models\Program;
+        use App\Models\Category;
     @endphp
     <div class="page-header">
         <div class="page-title">
@@ -15,6 +17,8 @@
         $colleges = College::all();
         $courses = Course::all();
         $countries = Country::all();
+        $programs = Program::all();
+        $categories = Category::all();
     @endphp
     <div class="row">
         <div class="col-md-4">
@@ -34,7 +38,7 @@
                                                         <label for="name">Country Name</label>
                                                         <select name="country" id="country" class="form-control"
                                                                 style="height: calc(1.4em + 1.4rem + 0px)">
-                                                            <option>Select Country</option>
+                                                            <option value="">Select Country</option>
                                                             @foreach ($countries as $country)
                                                                 <option value="{{ $country->id }}">{{ $country->name }}
                                                                 </option>
@@ -43,11 +47,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-
                                                         <label for="state_id">State</label>
                                                         <select class="form-control  state_id" name="state_id"
                                                                 id="state_id" style="height: calc(1.4em + 1.4rem + 0px)" >
@@ -57,6 +59,23 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="program">Program</label>
+                                                        <select name="program" id="program" class="form-control"
+                                                            style="height: calc(1.4em + 1.4rem + 0px)">
+                                                            <option value="">Select Program</option>
+                                                            @foreach ($programs as $program)
+                                                                <option value="{{ $program->id }}">
+                                                                    {{ $program ->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -73,13 +92,30 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="category">Stream Category</label>
+                                                        <select name="category" id="category" class="form-control"
+                                                            style="height: calc(1.4em + 1.4rem + 0px)">
+                                                            <option value="">Select Category</option>
+                                                            @foreach ($categories as $category)
+                                                                <option value="{{ $categories->id }}">
+                                                                    {{ $categories->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="name">College Name</label>
                                                         <select name="college" class="form-control"
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
-                                                            <option>Select College</option>
+                                                            <option value="">Select College</option>
                                                             @foreach ($colleges as $college)
                                                                 <option value="{{ $college->id }}">{{ $college->name }}
                                                                 </option>
@@ -88,6 +124,16 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="duration">Duration</label>
+                                                        <input type="text" name="duration" id="duration" class="form-control" placeholder="Course duration in week, month, year">
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -261,13 +307,8 @@
     <script>
         function deleterecord(id, deletefunction) {
             var SITEURL = '{{ URL::to('') }}';
-
             var id = id;
-
-
             var deleteFunction = deletefunction;
-
-
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -281,10 +322,7 @@
                     window.location.href = SITEURL + "/college/" + deleteFunction + "/" + id;
                 }
             })
-
         }
-
-
 
         $(document).on('change','#country',function (){
             var SITEURL = '{{ URL::to('') }}';
@@ -304,8 +342,6 @@
                 }
             });
         });
-
-
 
     </script>
 

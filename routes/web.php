@@ -35,6 +35,8 @@ Route::post('/recruiters/store', [App\Http\Controllers\RecruiterController::clas
 Route::get('/students/add', [App\Http\Controllers\StudentController::class, 'index'])->name('frontend.student.index');
 Route::post('/students/store', [App\Http\Controllers\StudentController::class, 'store'])->name('frontend.student.store');
 
+Route::get('/getStates/{id}', [App\Http\Controllers\Admin\StateController::class, 'getStates'])->name('states.getStates');
+Route::get('/getState/{id}', [App\Http\Controllers\Admin\StateController::class, 'getState'])->name('states.getState');
 
 //:::::::::::::::::::::countries universitie:::::::::::::::::://
 

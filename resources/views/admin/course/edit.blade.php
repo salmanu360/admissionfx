@@ -39,21 +39,85 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="name">Course Name</label>
-                                                    <input type="text" name="name" class="form-control" id="name" placeholder="Course Name" style="height: calc(1.4em + 1.4rem + 0px)" value="{{ $course->name }}">
+                                                    <input type="text" name="name" class="form-control" id="name"
+                                                           placeholder="Course Name"
+                                                           style="height: calc(1.4em + 1.4rem + 0px)"
+                                                           value="{{ $course->name }}">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="intake">Intake</label>
-                                                    <input type="date" name="intake" class="form-control" id="intake"  style="height: calc(1.4em + 1.4rem + 0px)" value="{{ $course->intake }}">
+                                                    <input type="date" name="intake" class="form-control" id="intake"
+                                                           style="height: calc(1.4em + 1.4rem + 0px)"
+                                                           value="{{ $course->intake }}">
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="name">Country Name</label>
+                                                    <select name="country" id="country" class="form-control"
+                                                            style="height: calc(1.4em + 1.4rem + 0px)">
+                                                        <option value="">Select Country</option>
+                                                        @foreach ($countries as $country)
+                                                            <option @if($country->id == $course->country_id) selected
+                                                                    @endif value="{{ $country->id }}">{{ $country->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="state_id">State</label>
+                                                    <input type="hidden" id="state_old_id" value="{{$course->state_id}}">
+                                                    <select class="form-control  state_id" name="state_id"
+                                                            id="state_id" style="height: calc(1.4em + 1.4rem + 0px)">
+                                                        <option value="" selected disabled hidden>
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="program">Program</label>
+                                                    <select name="program" id="program" class="form-control"
+                                                            style="height: calc(1.4em + 1.4rem + 0px)">
+                                                        <option value="">Select Program</option>
+                                                        @foreach ($programs as $program)
+                                                            <option @if($program->id == $course->program_id) selected
+                                                                    @endif value="{{ $program->id }}">{{ $program->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="category">Category</label>
+                                                    <select name="category" id="category" class="form-control"
+                                                            style="height: calc(1.4em + 1.4rem + 0px)">
+                                                        <option value="">Select Category</option>
+                                                        @foreach ($categories as $category)
+                                                            <option @if($category->id == $course->category_id) selected
+                                                                    @endif value="{{ $category->id }}">{{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
 
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="description">Program Description</label>
-                                                    <textarea name="description" class="form-control" id="description" rows="5"  placeholder="Program Description">{{ $course->description }}</textarea>
+                                                    <textarea name="description" class="form-control" id="description"
+                                                              rows="5"
+                                                              placeholder="Program Description">{{ $course->description }}</textarea>
                                                 </div>
                                             </div>
 
@@ -126,6 +190,42 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).ready(function () {
+                var SITEURL = '{{ URL::to('') }}';
+                let old_state_id = $('#state_old_id').val();
+                $.ajax({
+                    url: SITEURL + "/admin/getState/" + old_state_id,
+                    method: 'GET',
+                    success(response) {
+                        if (!$.isEmptyObject(response)) {
+                            $('.state_id').append('<option selected  value="' + response.id + '">' + response.name + '</option>');
+                        }
+                    }
+                });
+        });
+
+
+        $(document).on('change', '#country', function () {
+            var SITEURL = '{{ URL::to('') }}';
+            let country = $(this).find(':selected').val();
+            country = parseInt(country);
+            $('.state_id').html('<option selected value="">Select State</option>');
+            $.ajax({
+                url: SITEURL + "/admin/getStates/" + country,
+                method: 'GET',
+                success(response) {
+
+                    if (!$.isEmptyObject(response)) {
+                        $.each(response, function (i, value) {
+                            $('.state_id').append('<option  value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                }
+            });
+        });
+
+    </script>
     <script src="{{asset('modern-light-menu/plugins/flatpickr/flatpickr.js')}}"></script>
     <script src="{{asset('modern-light-menu/plugins/flatpickr/custom-flatpickr.js')}}"></script>
 @endsection

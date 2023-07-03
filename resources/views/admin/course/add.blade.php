@@ -50,6 +50,59 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Country Name</label>
+                                                <select name="country" id="country" class="form-control"
+                                                        style="height: calc(1.4em + 1.4rem + 0px)">
+                                                    <option value="">Select Country</option>
+                                                    @foreach ($countries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="state_id">State</label>
+                                                <select class="form-control  state_id" name="state_id"
+                                                        id="state_id" style="height: calc(1.4em + 1.4rem + 0px)" >
+                                                    <option value="" selected disabled hidden>
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="program">Program</label>
+                                                <select name="program" id="program" class="form-control"
+                                                        style="height: calc(1.4em + 1.4rem + 0px)">
+                                                    <option value="">Select Program</option>
+                                                    @foreach ($programs as $program)
+                                                        <option value="{{ $program->id }}">{{ $program->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="category">Category</label>
+                                                <select name="category" id="category" class="form-control"
+                                                        style="height: calc(1.4em + 1.4rem + 0px)">
+                                                    <option value="">Select Category</option>
+                                                    @foreach ($categories as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Program Description</label>
@@ -126,6 +179,27 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).on('change','#country',function (){
+            var SITEURL = '{{ URL::to('') }}';
+            let  country=$(this).find(':selected').val();
+            country = parseInt(country);
+            $('.state_id').html('<option selected value="">Select State</option>');
+            $.ajax({
+                url: SITEURL + "/admin/getStates/" + country,
+                method: 'GET',
+                success(response) {
+
+                    if(!$.isEmptyObject(response)) {
+                        $.each(response,function (i,value) {
+                            $('.state_id').append('<option  value="' +value.id + '">' +value.name + '</option>');
+                        });
+                    }
+                }
+            });
+        });
+
+    </script>
 <script src="{{asset('modern-light-menu/plugins/flatpickr/flatpickr.js')}}"></script>
 <script src="{{asset('modern-light-menu/plugins/flatpickr/custom-flatpickr.js')}}"></script>
 @endsection

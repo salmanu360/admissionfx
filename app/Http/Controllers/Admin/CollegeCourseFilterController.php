@@ -79,11 +79,14 @@ class CollegeCourseFilterController extends Controller
     }
     public function intakeFilter(Request $request)
     {
-
         $course = $request->course;
         $college = $request->college;
         $country = $request->country;
+        $state = $request->state_id;
         $intake = $request->intake_month;
+        $program = $request->program;
+        $category = $request->category;
+        $duration = $request->duration;
 
 
         // $intake_month = $request->input('intake_month');
@@ -101,6 +104,10 @@ class CollegeCourseFilterController extends Controller
                 ->where('colleges.id', $course)
                 ->orwhere('courses.college_id', $college)
                 ->orwhere('colleges.country_id', $country)
+                ->orwhere('courses.state_id', $state)
+                ->orwhere('courses.program_id', $program)
+                ->orwhere('courses.category_id', $category)
+                ->orwhere('courses.duration', 'LIKE', "%$duration%")
                 ->orwhereDate('colleges.intake', 'LIKE', "%$intake%")
                 ->orwhereDate('courses.intake', 'LIKE', "%$intake%")
                 ->select(
