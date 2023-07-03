@@ -1462,6 +1462,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-3 d-flex" style="flex-direction: column; justify-content: center;">
+
                                 <img src="{{ asset($row->image) }}" class="w-100">
                                 <h5>Ms./Mr. {{ Auth::user()->name }}</h5>
 
