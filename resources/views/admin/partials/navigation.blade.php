@@ -440,6 +440,9 @@
                         <li>
                             <a href="{{ route('category.index') }}">Category</a>
                         </li>
+                        <li>
+                            <a href="{{ route('program.index') }}">Course Program</a>
+                        </li>
 
                     </ul>
                 </li>

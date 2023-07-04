@@ -4,8 +4,13 @@
 @endsection
 @section('content')
     @php
+        use Carbon\Carbon;
+        use App\Models\User;
         use App\Models\LeadStatus;
-    $lead = LeadStatus::where('id', $student->lead_status)->first(); @endphp
+        use App\Models\LeadHistory;
+        $leadHistories = LeadHistory::where('student_id', $student->id)->get();
+        $lead = LeadStatus::where('id', $student->lead_status)->first();
+    @endphp
 <div class="page-header">
     <div class="page-title">
         {{-- <h3>All College</h3> --}}
@@ -41,10 +46,51 @@
                 </div>
             </div>
         </div>
-        
-        
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing">
+            <div class="widget-content-area br-4">
+                <div class="widget-one">
+
+                    <div class="mt-container mx-auto">
+                        <div class="timeline-line">
+
+                            @foreach($leadHistories as $history)
+                                @php
+                                    $leadUser = User::select('name')->where('id',$history->created_by)->first();
+                                    $leadStatus = LeadStatus::select('name')->where('id',$history->name)->first();
+                                    if ($leadStatus->name == 'New'){
+                                        $class = 'primary';
+                                    }else if ($leadStatus->name == 'Draft'){
+                                        $class = 'warning';
+                                    } elseif ($leadStatus->name == 'Process'){
+                                        $class = 'info';
+                                    }else if ($leadStatus->name == 'Completed'){
+                                        $class = 'success';
+                                    }
+                                @endphp
+                                <div class="item-timeline">
+                                    <p class="t-time" style="min-width: 100px !important;">
+                                        {{$leadStatus->name}}
+                                    </p>
+                                    <div class="t-dot t-dot-{{$class}}">
+                                    </div>
+                                    <div class="t-text">
+                                        <p>{{$leadUser->name}}</p>
+                                        <p class="t-meta-time">{{Carbon::parse($history->date_created)->diffForHumans()}}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
         <div class="col-xl-12 col-lg-6 col-md-6  mb-4">
-            <div class="card b-l-card-1 h-100" style="-webkit-box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); -moz-box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); ">
+            <div class="card b-l-card-1 h-100"
+                 style="-webkit-box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); -moz-box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); box-shadow: 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12), 0 3px 5px -1px rgba(0,0,0,.2); ">
                 <div class="card-body">
                     <h5 class="card-title mt-2" style="color:#e31e24">Basic Information</h5>
                     <div class="row">

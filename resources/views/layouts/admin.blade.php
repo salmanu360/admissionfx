@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="{{asset('modern-light-menu/plugins/flatpickr/flatpickr.css')}}" type="text/css">
     <link href="{{asset('modern-light-menu/assets/css/users/user-profile.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('horizontal-light-menu/assets/css/components/timeline/custom-timeline.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" type="text/css" 
      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

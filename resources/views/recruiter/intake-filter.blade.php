@@ -101,8 +101,8 @@
                                                                     style="height: calc(1.4em + 1.4rem + 0px)">
                                                                 <option value="">Select Category</option>
                                                                 @foreach ($categories as $category)
-                                                                    <option value="{{ $categories->id }}">
-                                                                        {{ $categories->name }}
+                                                                    <option value="{{ $category->id }}">
+                                                                        {{ $category->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>

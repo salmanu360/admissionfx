@@ -82,7 +82,7 @@
                                                         <label for="intake">Course Name</label>
                                                         <select name="course" class="form-control"
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
-                                                            <option>Select Course</option>
+                                                            <option value="">Select Course</option>
                                                             @foreach ($courses as $course)
                                                                 <option value="{{ $course->college_id }}">
                                                                     {{ $course->name }}
@@ -101,8 +101,8 @@
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Category</option>
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $categories->id }}">
-                                                                    {{ $categories->name }}
+                                                                <option value="{{ $category->id }}">
+                                                                    {{ $category->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -141,7 +141,7 @@
                                                         <label for="name">Intake</label>
                                                         <select name="intake_month" class="form-control"
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
-                                                            <option>Select Month</option>
+                                                            <option value="">Select Month</option>
                                                             <option value="01">January</option>
                                                             <option value="02">February</option>
                                                             <option value="03">March</option>
@@ -189,7 +189,6 @@
                 <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                     <div class="widget-content widget-content-area br-6">
                         <div class="table-responsive mb-4 mt-4">
-
                             @foreach ($filters as $filter)
                                 <div class="row">
                                     <div class="col-md-12">
