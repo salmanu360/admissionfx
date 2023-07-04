@@ -58,21 +58,12 @@
                                 @php
                                     $leadUser = User::select('name')->where('id',$history->created_by)->first();
                                     $leadStatus = LeadStatus::select('name')->where('id',$history->name)->first();
-                                    if ($leadStatus->name == 'New'){
-                                        $class = 'primary';
-                                    }else if ($leadStatus->name == 'Draft'){
-                                        $class = 'warning';
-                                    } elseif ($leadStatus->name == 'Process'){
-                                        $class = 'info';
-                                    }else if ($leadStatus->name == 'Completed'){
-                                        $class = 'success';
-                                    }
                                 @endphp
                                 <div class="item-timeline">
                                     <p class="t-time" style="min-width: 100px !important;">
                                         {{$leadStatus->name}}
                                     </p>
-                                    <div class="t-dot t-dot-{{$class}}">
+                                    <div class="t-dot t-dot-primary">
                                     </div>
                                     <div class="t-text">
                                         <p>{{$leadUser->name}}</p>
