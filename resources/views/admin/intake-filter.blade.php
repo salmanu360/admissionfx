@@ -36,11 +36,10 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="name">Country Name</label>
-                                                        <select name="country" id="country" class="form-control"
-                                                                style="height: calc(1.4em + 1.4rem + 0px)">
+                                                        <select name="country" id="country" class="form-control" style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Country</option>
                                                             @foreach ($countries as $country)
-                                                                <option value="{{ $country->id }}">{{ $country->name }}
+                                                                <option value="{{ $country->id }}" {{$validateData['country']==$country->id ? 'selected' : ''}}>{{ $country->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -67,7 +66,7 @@
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Program</option>
                                                             @foreach ($programs as $program)
-                                                                <option value="{{ $program->id }}">
+                                                                <option value="{{ $program->id }}" {{$validateData['program']==$program->id ? 'selected' : ''}}>
                                                                     {{ $program ->name }}
                                                                 </option>
                                                             @endforeach
@@ -84,7 +83,7 @@
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Course</option>
                                                             @foreach ($courses as $course)
-                                                                <option value="{{ $course->college_id }}">
+                                                                <option value="{{ $course->id }}" {{$validateData['course']==$course->id ? 'selected' : ''}}>
                                                                     {{ $course->name }}
                                                                 </option>
                                                             @endforeach
@@ -101,7 +100,7 @@
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Category</option>
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">
+                                                                <option value="{{ $category->id }}" {{$validateData['category']==$category->id ? 'selected' : ''}}>
                                                                     {{ $category->name }}
                                                                 </option>
                                                             @endforeach
@@ -117,7 +116,7 @@
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select College</option>
                                                             @foreach ($colleges as $college)
-                                                                <option value="{{ $college->id }}">{{ $college->name }}
+                                                                <option value="{{ $college->id }}" {{$validateData['college']==$college->id ? 'selected' : ''}}>{{ $college->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -129,7 +128,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="duration">Duration</label>
-                                                        <input type="text" name="duration" id="duration" class="form-control" placeholder="Course duration in week, month, year">
+                                                        <input type="text" name="duration" id="duration" value="{{$validateData['duration']}}" class="form-control" placeholder="Course duration in week, month, year">
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,18 +141,18 @@
                                                         <select name="intake_month" class="form-control"
                                                             style="height: calc(1.4em + 1.4rem + 0px)">
                                                             <option value="">Select Month</option>
-                                                            <option value="01">January</option>
-                                                            <option value="02">February</option>
-                                                            <option value="03">March</option>
-                                                            <option value="04">April</option>
-                                                            <option value="05">May</option>
-                                                            <option value="06">June</option>
-                                                            <option value="07">July</option>
-                                                            <option value="08">August</option>
-                                                            <option value="09">September</option>
-                                                            <option value="10">October</option>
-                                                            <option value="11">November</option>
-                                                            <option value="12">December</option>
+                                                            <option value="01" {{$validateData['intake_month']== '01' ? 'selected' : ''}}>January</option>
+                                                            <option value="02" {{$validateData['intake_month']== '02' ? 'selected' : ''}}>February</option>
+                                                            <option value="03" {{$validateData['intake_month']== '03' ? 'selected' : ''}}>March</option>
+                                                            <option value="04" {{$validateData['intake_month']== '04' ? 'selected' : ''}}>April</option>
+                                                            <option value="05" {{$validateData['intake_month']== '05' ? 'selected' : ''}}>May</option>
+                                                            <option value="06" {{$validateData['intake_month']== '06' ? 'selected' : ''}}>June</option>
+                                                            <option value="07" {{$validateData['intake_month']== '07' ? 'selected' : ''}}>July</option>
+                                                            <option value="08" {{$validateData['intake_month']== '08' ? 'selected' : ''}}>August</option>
+                                                            <option value="09" {{$validateData['intake_month']== '09' ? 'selected' : ''}}>September</option>
+                                                            <option value="10" {{$validateData['intake_month']== '10' ? 'selected' : ''}}>October</option>
+                                                            <option value="11" {{$validateData['intake_month']== '11' ? 'selected' : ''}}>November</option>
+                                                            <option value="12" {{$validateData['intake_month']== '12' ? 'selected' : ''}}>December</option>
                                                         </select>
 
                                                         {{-- <select name="intake_year" class="form-control" style="height: calc(1.4em + 1.4rem + 0px)">
@@ -271,7 +270,7 @@
                             @csrf
                             @method('POST')
                             <input type="hidden" name="college" value="{{ $filter->college_id }}">
-                            <input type="hidden" name="course" value="{{ $filter->courseID }}">
+                            <input type="hidden" name="course" value="{{ $filter->id }}">
                             <div class="form-group">
                                 <label for="recipient-name" class="form-control-label">Select a Student to apply :</label>
                                 @php
@@ -336,6 +335,32 @@
                     if(!$.isEmptyObject(response)) {
                         $.each(response,function (i,value) {
                             $('.state_id').append('<option  value="' +value.id + '">' +value.name + '</option>');
+                        });
+                    }
+                }
+            });
+        });
+
+
+        $(document).ready(function (){
+            var stateOld_id = <?= !empty($validateData['state_id']) ? $validateData['state_id'] : '0' ?>;
+            console.log(stateOld_id)
+            var SITEURL = '{{ URL::to('') }}';
+            let  country=$('#country').val();
+            country = parseInt(country);
+            $('.state_id').html('<option selected value="">Select State</option>');
+            $.ajax({
+                url: SITEURL + "/admin/getStates/" + country,
+                method: 'GET',
+                success(response) {
+
+                    if(!$.isEmptyObject(response)) {
+                        $.each(response,function (i,value) {
+                            if(stateOld_id == value.id){
+                                $('.state_id').append('<option  value="' +value.id + '" selected>' +value.name + '</option>');
+                            }else{
+                                $('.state_id').append('<option  value="' +value.id + '">' +value.name + '</option>');
+                            }
                         });
                     }
                 }

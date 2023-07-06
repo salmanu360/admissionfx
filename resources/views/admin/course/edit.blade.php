@@ -81,7 +81,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="program">Program</label>
@@ -190,19 +189,20 @@
 @endsection
 
 @section('js')
+
     <script>
         $(document).ready(function () {
-                var SITEURL = '{{ URL::to('') }}';
-                let old_state_id = $('#state_old_id').val();
-                $.ajax({
-                    url: SITEURL + "/admin/getState/" + old_state_id,
-                    method: 'GET',
-                    success(response) {
-                        if (!$.isEmptyObject(response)) {
-                            $('.state_id').append('<option selected  value="' + response.id + '">' + response.name + '</option>');
-                        }
+            var SITEURL = '{{ URL::to('') }}';
+            let old_state_id = $('#state_old_id').val();
+            $.ajax({
+                url: SITEURL + "/admin/getState/" + old_state_id,
+                method: 'GET',
+                success(response) {
+                    if (!$.isEmptyObject(response)) {
+                        $('.state_id').append('<option selected  value="' + response.id + '">' + response.name + '</option>');
                     }
-                });
+                }
+            });
         });
 
 
@@ -226,6 +226,7 @@
         });
 
     </script>
+
     <script src="{{asset('modern-light-menu/plugins/flatpickr/flatpickr.js')}}"></script>
     <script src="{{asset('modern-light-menu/plugins/flatpickr/custom-flatpickr.js')}}"></script>
 @endsection

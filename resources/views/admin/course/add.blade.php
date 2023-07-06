@@ -49,7 +49,6 @@
                                                 <input type="date" name="intake" class="form-control" id="intake"  style="height: calc(1.4em + 1.4rem + 0px)" value="{{ old('intake') }}">
                                             </div>
                                         </div>
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="name">Country Name</label>
