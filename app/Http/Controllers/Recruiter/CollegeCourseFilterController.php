@@ -37,34 +37,51 @@ class CollegeCourseFilterController extends Controller
     }
 
     public function intake(){
-        $filters = Course::where('id', 1);
-        return view('recruiter.intake-filter', compact('filters'));
+        $validateData=['course'=>'','college'=>'','country'=>'','state_id'=>'','program'=>'','category'=>'','duration'=>'','intake_month'=>''];
+        $filters = Course::join('colleges','courses.college_id','=', 'colleges.id')
+            ->join('countries','courses.country_id','=','countries.id')
+            ->select(
+                'courses.*',
+                'colleges.name as clgName',
+                'countries.name AS country'
+            )->orderBy('courses.created_at','DESC')->get();
+        return view('recruiter.intake-filter', compact('filters', 'validateData'));
     }
     public function intakeFilter(Request $request)
     {
+        if($request->state_id) {
+            $validateData=['course'=>$request->course,'college'=>$request->college,'country'=>$request->country,
+                'state_id'=>$request->state_id,'program'=>$request->program,'category'=>$request->category,
+                'duration'=>$request->duration,'intake_month'=>$request->intake_month];
+
+        } else{
+            $validateData=['course'=>$request->course,'college'=>$request->college,'country'=>$request->country,
+                'state_id'=>0,'program'=>$request->program,'category'=>$request->category,
+                'duration'=>$request->duration,'intake_month'=>$request->intake_month];
+
+        }
         $query = Course::select(
-            'courses.*', 'courses.id AS courseID',
-            'colleges.*', 'colleges.name AS clgName',
+            'courses.*',
+            'colleges.name as clgName',
             'countries.name AS country'
         )
             ->join('colleges', 'colleges.id', '=', 'courses.college_id')
-            ->join('countries', 'countries.id', 'colleges.country_id');
-
+            ->join('countries', 'countries.id', '=', 'courses.country_id');
 
         if (isset($request->course) || !empty($request->course)) {
             $query->where('courses.id', $request->course);
         }
 
         if (isset($request->college) || !empty($request->college)) {
-            $query->where('colleges.id', $request->college);
+            $query->where('courses.college_id', $request->college);
         }
 
         if (isset($request->country) || !empty($request->country)) {
-            $query->where('colleges.country_id', $request->country);
+            $query->where('courses.country_id', $request->country);
         }
 
         if (isset($request->state_id) || !empty($request->state_id)) {
-            $query->where('colleges.state_id', $request->state_id);
+            $query->where('courses.state_id', $request->state_id);
         }
         if (isset($request->program) || !empty($request->program)) {
             $query->where('courses.program_id', $request->program);
@@ -79,13 +96,11 @@ class CollegeCourseFilterController extends Controller
         }
 
         if (isset($request->intake_month) || !empty($request->intake_month)) {
-            $query->whereDate('colleges.intake', 'LIKE', "%$request->intake_month%");
-            $query->orwhereDate('courses.intake', 'LIKE', "%$request->intake_month%");
+            $query->whereDate('courses.intake', 'LIKE', "%$request->intake_month%");
         }
 
-        $filters = $query->get();
-
-        return view('recruiter.intake-filter', compact('filters'));
+        $filters = $query->orderBy('courses.created_at','DESC')->get();
+        return view('recruiter.intake-filter', compact('filters', 'validateData'));
 
     }
     

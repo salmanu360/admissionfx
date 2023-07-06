@@ -343,6 +343,32 @@
             });
         });
 
+
+        $(document).ready(function (){
+            var stateOld_id = <?= !empty($validateData['state_id']) ? $validateData['state_id'] : '0' ?>;
+            console.log(stateOld_id)
+            var SITEURL = '{{ URL::to('') }}';
+            let  country=$('#country').val();
+            country = parseInt(country);
+            $('.state_id').html('<option selected value="">Select State</option>');
+            $.ajax({
+                url: SITEURL + "/getStates/" + country,
+                method: 'GET',
+                success(response) {
+
+                    if(!$.isEmptyObject(response)) {
+                        $.each(response,function (i,value) {
+                            if(stateOld_id == value.id){
+                                $('.state_id').append('<option  value="' +value.id + '" selected>' +value.name + '</option>');
+                            }else{
+                                $('.state_id').append('<option  value="' +value.id + '">' +value.name + '</option>');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
     </script>
 
     @if ($errors->any())
