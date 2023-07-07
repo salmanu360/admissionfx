@@ -138,7 +138,10 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $college = College::find($course->college_id);
-        return view('admin.course.view', compact('course','college'));
+        $program = Program::select('name')->where('id', $course->program_id)->first();
+        $category = Category::select('name')->where('id', $course->category_id)->first();
+        $country = Country::select('name')->where('id', $course->country_id)->first();
+        return view('admin.course.view', compact('course','college', 'program', 'category', 'country'));
     }
 
     public function show(College $college)

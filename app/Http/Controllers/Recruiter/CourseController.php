@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Recruiter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\College;
 use App\Models\Country;
+use App\Models\Program;
 use App\Models\Student;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -134,7 +136,10 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $college = College::find($course->college_id);
-        return view('recruiter.course.view', compact('course','college'));
+        $program = Program::select('name')->where('id', $course->program_id)->first();
+        $category = Category::select('name')->where('id', $course->category_id)->first();
+        $country = Country::select('name')->where('id', $course->country_id)->first();
+        return view('recruiter.course.view', compact('course','college', 'program', 'category', 'country'));
     }
 
     public function collegeDetail($id){

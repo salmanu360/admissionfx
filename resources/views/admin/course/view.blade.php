@@ -24,6 +24,9 @@
                             <th>Intake</th>
                             <th>Tuition fee</th>
                             <th>Application Fee</th>
+                            <th>Program</th>
+                            <th>Category</th>
+                            <th>Country</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +36,10 @@
                             <td>{{date('d M Y',strtotime($course->intake))}}</td>
                             <td>{{$course->tuition_fee}}</td>
                             <td>{{$course->application_fee}}</td>
+                            <td>{{isset($program) ? $program->name : ''}}</td>
+                            <td>{{ isset($category) ? $category->name : ''}}</td>
+                            <td>{{isset($country) ? $country->name : ''}}</td>
+
                         </tr>
                     </tbody>
                 </table>
