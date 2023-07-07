@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\RM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\College;
 use App\Models\Country;
 use App\Models\Course;
 use App\Models\CSVUpload;
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -134,7 +136,10 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         $college = College::find($course->college_id);
-        return view('rmanager.course.view', compact('course','college'));
+        $program = Program::select('name')->where('id', $course->program_id)->first();
+        $category = Category::select('name')->where('id', $course->category_id)->first();
+        $country = Country::select('name')->where('id', $course->country_id)->first();
+        return view('rmanager.course.view', compact('course','college', 'program', 'category', 'country'));
     }
     
     

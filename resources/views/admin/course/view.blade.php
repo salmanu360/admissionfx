@@ -37,7 +37,7 @@
                             <td>{{$course->tuition_fee}}</td>
                             <td>{{$course->application_fee}}</td>
                             <td>{{isset($program) ? $program->name : ''}}</td>
-                            <td>{{ isset($category) ? $category->name : ''}}</td>
+                            <td>{{isset($category) ? $category->name : ''}}</td>
                             <td>{{isset($country) ? $country->name : ''}}</td>
 
                         </tr>
