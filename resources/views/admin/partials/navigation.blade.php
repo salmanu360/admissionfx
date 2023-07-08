@@ -442,6 +442,7 @@
                         </li>
                         <li>
                             <a href="{{ route('program.index') }}">Course Program</a>
+                            <a href="{{ route('activity-logger.index') }}">Activity Logger</a>
                         </li>
 
                     </ul>
