@@ -176,7 +176,7 @@ class RecruiterController extends Controller
         
         /* ===mail to admin===*/
         $mailData = [
-          'title' => 'New Recruiter Registeration',
+          'title' => 'New Recruiter Registration',
           'body' => 'Congratulations University Bureau Team….!!! <br>
           One Recruiter ('.$Recruiter->first_name. ' '.$Recruiter->last_name.') has filled the form for becoming our partner.<br>
           Kindly review its application and in case if you accept his/her request kindly send him/her acceptance email. <br>
@@ -189,7 +189,7 @@ class RecruiterController extends Controller
        
        /* ===mail to recruiter===*/
         $mailData = [
-          'title' => 'New Recruiter Registeration',
+          'title' => 'New Recruiter Registration',
           'body' => '
           <p>Name: '.$Recruiter->first_name.''.$Recruiter->last_name .'</p>
           <p>Email: '.$Recruiter->email.'</p>
@@ -198,7 +198,7 @@ class RecruiterController extends Controller
           <p>mobile: '.$Recruiter->mobile.'</p>
           <p>skype: '.$Recruiter->skype.'</p>
           <p>whatsapp: '.$Recruiter->whatsapp.'</p>
-          <p>Thanks for registeration we will soon review your information and will send login credentials through email</p>
+          <p>Thanks for registration we will soon review your information and will send login credentials through email</p>
           ',
           ];
         Mail::to($Recruiter->email)->send(new recruitermail($mailData));

@@ -5,7 +5,7 @@
         <h3>All Categories</h3>
     </div>
     <div class="dropdown filter custom-dropdown-icon">
-        <a href="{{route('category.create')}}"><button class="btn btn-success"><i class="fa-solid fa-square-plus"></i> Add category</button></a>
+        <a href="{{route('category.addCategory')}}"><button class="btn btn-success"><i class="fa-solid fa-square-plus"></i> Add category</button></a>
     </div>
 </div>
 

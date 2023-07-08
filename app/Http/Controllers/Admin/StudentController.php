@@ -89,7 +89,7 @@ class StudentController extends Controller
        if($status ==1){
            
         $mailData = [
-          'title' => 'Congratuations ..!! your application status has been approved below is your login credentials and click below link to login application',
+          'title' => 'congratulations ..!! your application status has been approved below is your login credentials and click below link to login application',
           'body' => '
           Email: '.$statusupdate->email.'
           Password: '.$pass.'</p>

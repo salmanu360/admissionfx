@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class CategoryController extends Controller
 {
@@ -31,43 +30,40 @@ class CategoryController extends Controller
     public function storeCategory(Request $request)
     {
         $data = $request->all();
-        // dd($data);
+//         dd($data);
         $validateData = $request->validate([
-    		'name' => 'required|unique:categories',
-    	]);
+            'name' => 'required|unique:categories',
+        ]);
         $category = new Category();
-    	$category->name = ucwords(strtolower($data['name']));
-    	$category->slug =  Str::slug($data['name']);
+        $category->name = ucwords(strtolower($data['name']));
+        $category->slug = Str::slug($data['name']);
 
-    	if(empty($data['description'])){
-    		$category->description = "";
-    	} else{
-    		$category->description = $data['description'];
-    	}
-    	if(empty($data['status'])){
-    		$category->status = 0;
-    	} else{
-    		$category->status = 1;
-    	}
+        if (empty($data['description'])) {
+            $category->description = "";
+        } else {
+            $category->description = $data['description'];
+        }
+        if (empty($data['status'])) {
+            $category->status = 0;
+        } else {
+            $category->status = 1;
+        }
 
-    	$random = Str::random(10);
-    	if($request->hasFile('image'))
-    	{
-    		$image_tmp = $request->file('image');
-    		if($image_tmp->isValid())
-    		{
-                $extension = $image_tmp->getClientOriginalExtension();
-                $filename = $random . '.' . $extension;
-                $image_path = 'uploads/category/' . $filename;
-                Image::make($image_tmp)->save($image_path);
-                $category->image = $filename;
+        $random = Str::random(10);
+        if ($request->hasFile('image')) {
+            $image_tmp = $request->file('image');
+            if ($image_tmp->isValid()) {
+                $image_file = $random . uniqid() . '.' . $image_tmp->getClientOriginalName();
+                $passportPath = 'uploads/category/';
+                $image_tmp->move($passportPath, $image_file);
+                $category->image = $image_file;
             }
 
-    	}
+        }
 
-    	$category->save();
-    	Session::flash('success_message', 'Category has been successfully added');
-    	return redirect()->back();
+        $category->save();
+        Session::flash('success_message', 'Category has been successfully added');
+        return redirect()->back();
     }
 
     //edit Category
@@ -94,39 +90,34 @@ class CategoryController extends Controller
     	$category->parent_id = $data['parent_id'];
     	if(empty($data['description'])){
     		$category->description = "";
-    	} else{
-    		$category->description = $data['description'];
-    	}
-    	if(empty($data['status'])){
-    		$category->status = 0;
-    	} else{
-    		$category->status = 1;
-    	}
+        } else {
+            $category->description = $data['description'];
+        }
+        if (empty($data['status'])) {
+            $category->status = 0;
+        } else {
+            $category->status = 1;
+        }
 
-    	$random = Str::random(10);
-    	if($request->hasFile('image'))
-    	{
-    		$image_tmp = $request->file('image');
-    		if($image_tmp->isValid())
-    		{
-                $extension = $image_tmp->getClientOriginalExtension();
-                $filename = $random . '.' . $extension;
-                $image_path = 'uploads/category/' . $filename;
-                Image::make($image_tmp)->save($image_path);
-                $category->image = $filename;
+        $random = Str::random(10);
+        if ($request->hasFile('image')) {
+            $image_tmp = $request->file('image');
+            if ($image_tmp->isValid()) {
+                $image_file = $random . uniqid() . '.' . $image_tmp->getClientOriginalName();
+                $passportPath = 'uploads/category/';
+                $image_tmp->move($passportPath, $image_file);
+                $category->image = $image_file;
             }
+        }
 
-    	}
-
-		$image_path = 'uploads/category/';
-        if(!empty($data['image'])) {
-            if (!empty($data['current_image'])){
+        $image_path = 'uploads/category/';
+        if (!empty($data['image'])) {
+            if (!empty($data['current_image'])) {
                 if (file_exists($image_path . $data['current_image'])) {
                     unlink($image_path . $data['current_image']);
                 }
+            }
         }
-        }
-
 
     	$category->save();
     	Session::flash('success_message', 'Category has been successfully Updated');

@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AssignRecruiterToRmController;
 use App\Http\Controllers\Admin\GradingSchemeController;
 use App\Http\Controllers\Admin\HighestLevelEducationController;
+use App\Http\Controllers\Admin\LeadStatusController;
 use App\Http\Controllers\Admin\PermissionController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\AssignRecruiterToRmController;
-use App\Http\Controllers\Admin\LeadStatusController;
-use App\Http\Controllers\Admin\ReportController;
-use App\Http\Controllers\Admin\MailController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,47 +50,50 @@ Route::prefix('admin')->group(static function () {
         Route::get('profile', [\App\Http\Controllers\Admin\HomeController::class, 'profile'])->middleware('password.confirm.admin')->name('admin.profile');
     });
 
-     //Category
+
+
      Route::middleware(['auth:admin', 'verified'])->group(static function () {
-        Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'category'])->name('category.index');
-        Route::get('/category/add', [App\Http\Controllers\Admin\CategoryController::class, 'addCategory'])->name('category.addCategory');
-        Route::post('/category/add', [App\Http\Controllers\Admin\CategoryController::class, 'storeCategory'])->name('storeCategory');
-        Route::get('/category/edit/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'editCategory'])->name('editCategory');
-        Route::post('/category/edit/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'updateCategory'])->name('category.updateCategory');
-        Route::get('/delete_category/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteCategory'])->name('deleteCategory');
 
-    });
+         //Activity loggers
+         Route::get('/activity-logger', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logger.index');
+         Route::get('/activity-logger/getActivityLogDetail/{activityLog}', [App\Http\Controllers\Admin\ActivityLogController::class, 'getActivityLogDetail'])->name('activity-logger.getActivityLogDetail');
+         Route::get('/activity-logger/destroy/{id}', [App\Http\Controllers\Admin\ActivityLogController::class, 'destroy'])->name('activity-logger.destroy');
 
-   
+         //Category
+         Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'category'])->name('category.index');
+         Route::get('/category/add', [App\Http\Controllers\Admin\CategoryController::class, 'addCategory'])->name('category.addCategory');
+         Route::post('/category/add', [App\Http\Controllers\Admin\CategoryController::class, 'storeCategory'])->name('storeCategory');
+         Route::get('/category/edit/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'editCategory'])->name('editCategory');
+         Route::post('/category/edit/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'updateCategory'])->name('category.updateCategory');
+         Route::get('/delete_category/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteCategory'])->name('deleteCategory');
 
-    //Country
-     Route::middleware(['auth:admin', 'verified'])->group(static function () {
-        Route::get('/country', [App\Http\Controllers\Admin\CountryController::class, 'country'])->name('country.index');
-        Route::get('/country/addCountry', [App\Http\Controllers\Admin\CountryController::class, 'addCountry'])->name('country.addCountry');
-        Route::post('/country/storeCountry', [App\Http\Controllers\Admin\CountryController::class, 'storeCountry'])->name('country.storeCountry');
-        Route::get('/country/editCountry/{id}', [App\Http\Controllers\Admin\CountryController::class, 'editCountry'])->name('country.editCountry');
-        Route::post('/country/updateCountry/{id}', [App\Http\Controllers\Admin\CountryController::class, 'updateCountry'])->name('country.updateCountry');
-        Route::get('/country/delete_country/{id}', [App\Http\Controllers\Admin\CountryController::class, 'deleteCountry'])->name('country/deleteCountry');
+         //Country
+         Route::get('/country', [App\Http\Controllers\Admin\CountryController::class, 'country'])->name('country.index');
+         Route::get('/country/addCountry', [App\Http\Controllers\Admin\CountryController::class, 'addCountry'])->name('country.addCountry');
+         Route::post('/country/storeCountry', [App\Http\Controllers\Admin\CountryController::class, 'storeCountry'])->name('country.storeCountry');
+         Route::get('/country/editCountry/{id}', [App\Http\Controllers\Admin\CountryController::class, 'editCountry'])->name('country.editCountry');
+         Route::post('/country/updateCountry/{id}', [App\Http\Controllers\Admin\CountryController::class, 'updateCountry'])->name('country.updateCountry');
+         Route::get('/country/delete_country/{id}', [App\Http\Controllers\Admin\CountryController::class, 'deleteCountry'])->name('country/deleteCountry');
 
-        //States
-        Route::get('/states', [App\Http\Controllers\Admin\StateController::class, 'index'])->name('states.index');
-        Route::get('/getStates/{id}', [App\Http\Controllers\Admin\StateController::class, 'getStates'])->name('states.getStates');
-        Route::get('/getState/{id}', [App\Http\Controllers\Admin\StateController::class, 'getState'])->name('states.getState');
-        Route::get('/states/create', [App\Http\Controllers\Admin\StateController::class, 'create'])->name('states.create');
-        Route::post('/states/store', [App\Http\Controllers\Admin\StateController::class, 'store'])->name('states.store');
-        Route::get('/states/edit/{id}', [App\Http\Controllers\Admin\StateController::class, 'edit'])->name('states.edit');
-        Route::post('/states/update/{id}', [App\Http\Controllers\Admin\StateController::class, 'update'])->name('states.update');
-        Route::get('/states/destroy/{id}', [App\Http\Controllers\Admin\StateController::class, 'destroy'])->name('states.destroy');
+         //States
+         Route::get('/states', [App\Http\Controllers\Admin\StateController::class, 'index'])->name('states.index');
+         Route::get('/getStates/{id}', [App\Http\Controllers\Admin\StateController::class, 'getStates'])->name('states.getStates');
+         Route::get('/getState/{id}', [App\Http\Controllers\Admin\StateController::class, 'getState'])->name('states.getState');
+         Route::get('/states/create', [App\Http\Controllers\Admin\StateController::class, 'create'])->name('states.create');
+         Route::post('/states/store', [App\Http\Controllers\Admin\StateController::class, 'store'])->name('states.store');
+         Route::get('/states/edit/{id}', [App\Http\Controllers\Admin\StateController::class, 'edit'])->name('states.edit');
+         Route::post('/states/update/{id}', [App\Http\Controllers\Admin\StateController::class, 'update'])->name('states.update');
+         Route::get('/states/destroy/{id}', [App\Http\Controllers\Admin\StateController::class, 'destroy'])->name('states.destroy');
 
-        // Cities
-        Route::get('/cities', [App\Http\Controllers\Admin\CityController::class, 'index'])->name('cities.index');
-        Route::get('/cities/create', [App\Http\Controllers\Admin\CityController::class, 'create'])->name('cities.create');
-        Route::post('/cities/store', [App\Http\Controllers\Admin\CityController::class, 'store'])->name('cities.store');
-        Route::get('/cities/edit/{id}', [App\Http\Controllers\Admin\CityController::class, 'edit'])->name('cities.edit');
-        Route::post('/cities/update/{id}', [App\Http\Controllers\Admin\CityController::class, 'update'])->name('cities.update');
-        Route::get('/cities/destroy/{id}', [App\Http\Controllers\Admin\CityController::class, 'destroy'])->name('cities.destroy');
+         // Cities
+         Route::get('/cities', [App\Http\Controllers\Admin\CityController::class, 'index'])->name('cities.index');
+         Route::get('/cities/create', [App\Http\Controllers\Admin\CityController::class, 'create'])->name('cities.create');
+         Route::post('/cities/store', [App\Http\Controllers\Admin\CityController::class, 'store'])->name('cities.store');
+         Route::get('/cities/edit/{id}', [App\Http\Controllers\Admin\CityController::class, 'edit'])->name('cities.edit');
+         Route::post('/cities/update/{id}', [App\Http\Controllers\Admin\CityController::class, 'update'])->name('cities.update');
+         Route::get('/cities/destroy/{id}', [App\Http\Controllers\Admin\CityController::class, 'destroy'])->name('cities.destroy');
 
-        //College
+         //College
         Route::get('/college', [App\Http\Controllers\Admin\CollegeController::class, 'index'])->name('college.index');
         Route::get('/college/create', [App\Http\Controllers\Admin\CollegeController::class, 'create'])->name('college.create');
         Route::post('/college/store', [App\Http\Controllers\Admin\CollegeController::class, 'store'])->name('college.store');

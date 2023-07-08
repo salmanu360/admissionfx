@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CSVUpload extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $table = 'c_s_v_uploads';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -16,4 +18,9 @@ class CSVUpload extends Model
         'created_name',
         'created_date',
     ];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnly(['*']);
+    }
+
 }

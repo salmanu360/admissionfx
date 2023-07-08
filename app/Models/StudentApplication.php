@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class StudentApplication extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     
     protected $table = 'student_applications';
     protected $primaryKey = 'id';
@@ -22,4 +24,9 @@ class StudentApplication extends Model
         'payment_date',
         'pay_status'
     ];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnly(['*']);
+    }
+
 }

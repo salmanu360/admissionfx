@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class HighestLevelEducation extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $table = 'highest_level_education';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -15,4 +17,9 @@ class HighestLevelEducation extends Model
         'create_date',
         'created_by'
     ];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnly(['*']);
+    }
+
 }
