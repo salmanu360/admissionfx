@@ -95,7 +95,7 @@
                                        onclick="getActivityLogDetail('{{$log->id}}');">
                                         <i class="far fa-eye"></i>
                                     </a>
-                                    <a class="text text-danger btn-sm deleteRecord" style="color: white" href="javascript:void(0);"  onclick="deleterecord('{{$log->id}}','activity-logger/destory');">
+                                    <a class="text text-danger btn-sm deleteRecord" style="color: white" href="javascript:void(0);"  onclick="deleterecord('{{$log->id}}','activity-logger/destroy');">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
