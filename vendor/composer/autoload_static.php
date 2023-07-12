@@ -649,6 +649,7 @@ class ComposerStaticInitcba45eaecae0bef26ef15820d919877e
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\Admin\\ActivityLogController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ActivityLogController.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
         'App\\Http\\Controllers\\Admin\\ApplicationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ApplicationController.php',
         'App\\Http\\Controllers\\Admin\\AssignRecruiterToRmController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AssignRecruiterToRmController.php',
@@ -741,6 +742,7 @@ class ComposerStaticInitcba45eaecae0bef26ef15820d919877e
         'App\\Mail\\demoMail' => __DIR__ . '/../..' . '/app/Mail/demoMail.php',
         'App\\Mail\\recruitermail' => __DIR__ . '/../..' . '/app/Mail/recruitermail.php',
         'App\\Mail\\studentmail' => __DIR__ . '/../..' . '/app/Mail/studentmail.php',
+        'App\\Models\\ActivityLog' => __DIR__ . '/../..' . '/app/Models/ActivityLog.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
         'App\\Models\\AssignRecruiterToRm' => __DIR__ . '/../..' . '/app/Models/AssignRecruiterToRm.php',
         'App\\Models\\CSVUpload' => __DIR__ . '/../..' . '/app/Models/CSVUpload.php',
@@ -759,6 +761,7 @@ class ComposerStaticInitcba45eaecae0bef26ef15820d919877e
         'App\\Models\\LeadStatus' => __DIR__ . '/../..' . '/app/Models/LeadStatus.php',
         'App\\Models\\Manager' => __DIR__ . '/../..' . '/app/Models/Manager.php',
         'App\\Models\\MouDetail' => __DIR__ . '/../..' . '/app/Models/MouDetail.php',
+        'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\Program' => __DIR__ . '/../..' . '/app/Models/Program.php',
         'App\\Models\\Recruiter' => __DIR__ . '/../..' . '/app/Models/Recruiter.php',

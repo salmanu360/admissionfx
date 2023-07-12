@@ -69,33 +69,24 @@
                         <tr>
                             <th>#</th>
                             <th>ID</th>
-                            <th>ACTION</th>
-                            <th>ENTITY</th>
+                            <th>NOTIFICATION</th>
+                            <th>Read At</th>
                             <th>CREATED BY</th>
                             <th>CREATED AT</th>
                             <th>ACTION</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($loggers as $log)
+                        @foreach($notifications as $notification)
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
-                                <td>{{$log->id}}</td>
-                                <td>{{$log->description}}</td>
-                                <td>{{$log->subject_type}}</td>
+                                <td>{{$notification->id}}</td>
+                                <td>{{$notification->notification}}</td>
+                                <td>{{$notification->read_at}}</td>
+                                <td>{{$notification->created_name}}</td>
+                                <td>{{$notification->created_at}}</td>
                                 <td>
-                                    @php
-                                        $User = $log->causer_type::select('name')->where('id', $log->causer_id)->first();
-                                    @endphp
-                                    {{$User->name}}
-                                </td>
-                                <td>{{$log->created_at}}</td>
-                                <td>
-                                    <a class="text text-primary btn-sm " style="color: white" href="javascript:void(0);"
-                                       onclick="getActivityLogDetail('{{$log->id}}');">
-                                        <i class="far fa-eye"></i>
-                                    </a>
-                                    <a class="text text-danger btn-sm deleteRecord" style="color: white" href="javascript:void(0);"  onclick="deleterecord('{{$log->id}}','activity-logger/destroy');">
+                                    <a class="text text-danger btn-sm deleteRecord" style="color: white" href="javascript:void(0);"  onclick="deleterecord('{{$notification->id}}','notification/destroy');">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -106,9 +97,9 @@
                         <tr>
                             <th>#</th>
                             <th>ID</th>
-                            <th>ACTION</th>
-                            <th>ENTITY</th>
-                            <th>NAME</th>
+                            <th>NOTIFICATION</th>
+                            <th>Read At</th>
+                            <th>CREATED BY</th>
                             <th>CREATED AT</th>
                             <th>ACTION</th>
                         </tr>
@@ -116,20 +107,7 @@
                     </table>
                 </div>
             </div>
-        </div>
-
-    </div>
-
-
-    <!-- modal for Activity Log detail -->
-    <div class="modal fade" id="activityLogDetailModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl customWidth" role="document">
-            <div class="modal-content ActivityLogDetailModalBody">
-                ....
-            </div>
-        </div>
-    </div>
+        </div></div>
 @endsection
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -152,28 +130,6 @@
                 }
             })
         }
-            //--------- activity log detail modal function start -----
-            getActivityLogDetail = function (activity_id) {
-                var SITEURL = '{{ URL::to('') }}';
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                });
-
-                $.ajax({
-                    url: SITEURL + '/admin/activity-logger/getActivityLogDetail/' + activity_id,
-                    type: 'GET',
-                    success: function (response) {
-                        console.log(response)
-                        $('#activityLogDetailModal').modal('show');
-                        $(".ActivityLogDetailModalBody").empty();
-                        $(".ActivityLogDetailModalBody").html(response);
-                    }
-                });
-            }
-//--------- activity log modal function end -----
-//-------------------------------------------------------------------------------
 
         @if($message = Session::get('success_message'))
             toastr.options =
@@ -183,9 +139,5 @@
             }
         toastr.success("{{ $message }}");
         @endif
-
     </script>
-
-
-
 @endsection

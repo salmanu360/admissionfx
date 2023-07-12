@@ -278,6 +278,32 @@
      $(document).ready(function() {
          App.init();
      });
+
+     $(document).on('click', '.markAsRead', function () {
+         var notification_id = $(this).attr('data-id');
+         var id = $(this).attr('data-value');
+         var xx = $('#bellCounter').html();
+
+         $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+             }
+         });
+
+         $.ajax({
+             url: domainUrl + 'admin/notifications/updateStatus/' + notification_id,
+             type: 'GET',
+             success: function (response) {
+                 $('#bellCounter').html(xx - 1);
+                 $('#parentDiv' + id).remove();
+                 flasherSuccess('Notification Seen');
+
+             }, error: function (response) {
+                 flasherError('Some thing went wrong');
+             }
+         });
+     });
+
  </script>
  <script src="{{asset('modern-light-menu/assets/js/custom.js')}}"></script>
  <!-- END GLOBAL MANDATORY SCRIPTS -->

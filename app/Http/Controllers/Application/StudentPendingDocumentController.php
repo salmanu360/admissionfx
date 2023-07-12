@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Application;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeadHistory;
+use App\Models\Notification;
 use App\Models\Student;
 use App\Models\StudentPendingDocument;
 use Carbon\Carbon;
@@ -36,7 +37,8 @@ class StudentPendingDocumentController extends Controller
         return redirect()->back()->with('success', 'your responce is send');
     }
 
-    public function leadStatusChange(Request $request){
+    public function leadStatusChange(Request $request)
+    {
         Student::where('id', $request->studentId)->update([
             'lead_status' => $request->leadStatus
         ]);
@@ -47,6 +49,15 @@ class StudentPendingDocumentController extends Controller
         $leadHistory->student_id = $request->studentId;
         $leadHistory->date_created = Carbon::now();
         $leadHistory->save();
+
+        $query = "select * from students where id = $request->studentId";
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Lead Status Changed';
+        $notification->query = $query;
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Application Team';
+        $notification->save();
         return redirect()->back()->with('success', 'change the lead status');
     }
 }

@@ -54,6 +54,11 @@ Route::prefix('admin')->group(static function () {
 
      Route::middleware(['auth:admin', 'verified'])->group(static function () {
 
+         // Notifications
+         Route::get('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('notifications.index');
+         Route::get('/notifications/destroy/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'destroy'])->name('notifications.destroy');
+         Route::get('/notifications/updateStatus/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'updateStatus'])->name('notifications.updateStatus');
+
          //Activity loggers
          Route::get('/activity-logger', [App\Http\Controllers\Admin\ActivityLogController::class, 'index'])->name('activity-logger.index');
          Route::get('/activity-logger/getActivityLogDetail/{activityLog}', [App\Http\Controllers\Admin\ActivityLogController::class, 'getActivityLogDetail'])->name('activity-logger.getActivityLogDetail');

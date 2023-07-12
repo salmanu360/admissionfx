@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Http\\Controllers\\Admin\\ActivityLogController' => $baseDir . '/app/Http/Controllers/Admin/ActivityLogController.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',
     'App\\Http\\Controllers\\Admin\\ApplicationController' => $baseDir . '/app/Http/Controllers/Admin/ApplicationController.php',
     'App\\Http\\Controllers\\Admin\\AssignRecruiterToRmController' => $baseDir . '/app/Http/Controllers/Admin/AssignRecruiterToRmController.php',
@@ -100,6 +101,7 @@ return array(
     'App\\Mail\\demoMail' => $baseDir . '/app/Mail/demoMail.php',
     'App\\Mail\\recruitermail' => $baseDir . '/app/Mail/recruitermail.php',
     'App\\Mail\\studentmail' => $baseDir . '/app/Mail/studentmail.php',
+    'App\\Models\\ActivityLog' => $baseDir . '/app/Models/ActivityLog.php',
     'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\AssignRecruiterToRm' => $baseDir . '/app/Models/AssignRecruiterToRm.php',
     'App\\Models\\CSVUpload' => $baseDir . '/app/Models/CSVUpload.php',
@@ -118,6 +120,7 @@ return array(
     'App\\Models\\LeadStatus' => $baseDir . '/app/Models/LeadStatus.php',
     'App\\Models\\Manager' => $baseDir . '/app/Models/Manager.php',
     'App\\Models\\MouDetail' => $baseDir . '/app/Models/MouDetail.php',
+    'App\\Models\\Notification' => $baseDir . '/app/Models/Notification.php',
     'App\\Models\\Permission' => $baseDir . '/app/Models/Permission.php',
     'App\\Models\\Program' => $baseDir . '/app/Models/Program.php',
     'App\\Models\\Recruiter' => $baseDir . '/app/Models/Recruiter.php',
