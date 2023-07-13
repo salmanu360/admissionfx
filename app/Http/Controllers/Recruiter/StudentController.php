@@ -349,6 +349,17 @@ class StudentController extends Controller
         $student->user_id = $studentsUser->id;
         $student->save();
 
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'Student is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Recruiter';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\User';
+        $notification->notifiable_id = $student->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+        
         $studentpassword = new StudentPassword();
 
         $studentpassword->user_id = $studentsUser->id;
@@ -731,6 +742,18 @@ class StudentController extends Controller
         }
 
         $student->update();
+
+        $notification =  new Notification();
+        $notification->type ='update';
+        $notification->data = 'Student is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Recruiter';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\User';
+        $notification->notifiable_id = $student->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
         Session::flash('success_message', 'Student has been successfully updated');
         return redirect()->route('std.index');
     }

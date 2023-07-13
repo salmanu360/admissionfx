@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\RM;
 
+use App\Models\Notification;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Recruiter;
@@ -147,6 +148,18 @@ class RecruiterController extends Controller
         }
 
         $Recruiter->save();
+
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'New Recruiter is registered';
+        $notification->created_by = Auth()->user()->name;
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->role ='RM';
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = Auth()->user()->id;
+        $notification->save();
+
         if ($request->has('marketing')) {
             
             foreach ($request->marketing as $marketings) {
@@ -331,6 +344,17 @@ class RecruiterController extends Controller
             }
         }
         $Recruiter->update();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Recruiter is updated';
+        $notification->created_by = Auth()->user()->name;
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->role ='RM';
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = Auth()->user()->id;
+        $notification->save();
 
         if ($request->has('marketing')) {
             RecruiterMarketing::where('recruiter_id', $Recruiter->id)->delete();

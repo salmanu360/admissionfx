@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Recruiter;
 use App\Models\RecruiterMarketing;
 use App\Models\User;
@@ -20,13 +21,11 @@ class RecruiterController extends Controller
     }
     public function store(Request $request)
     {
-        
-        
         $validateData = $request->validate([
             'company_name' => 'required',
             'email' => 'required',
             'website' => 'required',
-            
+
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
@@ -143,6 +142,18 @@ class RecruiterController extends Controller
         }
 
         $Recruiter->save();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'New Recruiter is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->role ='Self';
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = $Recruiter->id;
+        $notification->save();
+
         if ($request->has('marketing')) {
             
             foreach ($request->marketing as $marketings) {

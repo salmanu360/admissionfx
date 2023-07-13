@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -27,7 +28,8 @@ class NotificationController extends Controller
 
     public function updateStatus($id)
     {
-        return Notification::where('id', $id)->update(['read_at'=> Carbon::now()]);
+        Notification::where('id', $id)->update(['read_at'=> Carbon::now()]);
+        return redirect()->back();
     }
 
 }

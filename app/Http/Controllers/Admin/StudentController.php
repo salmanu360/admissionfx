@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Notification;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Student;
@@ -74,6 +75,19 @@ class StudentController extends Controller
         }else{
             $checkstatus='Disapprove';
         }
+
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'Student is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
+
         /* ===mail to admin===*/
         $mailData = [
           'title' => 'Student Status '.$checkstatus.'',
@@ -204,7 +218,7 @@ class StudentController extends Controller
         // $student->high_level_edu = $request->high_level_edu;
         // $student->grading_scheme = $request->grading_scheme;
         
-         $student->country_edu = implode(',', $request->country_edu);
+        $student->country_edu = implode(',', $request->country_edu);
         $student->high_level_edu = implode(',', $request->high_level_edu);
         $student->grading_scheme = implode(',', $request->grading_scheme);
         
@@ -406,7 +420,17 @@ class StudentController extends Controller
         }
 
         $student->save();
-    
+
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'Student is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $student->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
     
         //multiple education history 
         $countryEdus = $request->input('country_edu');
@@ -829,6 +853,18 @@ class StudentController extends Controller
         }
 
         $student->update();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Student is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $student->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
         $countryEdus = $request->input('country_edu');
         $highLevelEdus = $request->input('high_level_edu');
         $gradingSchemes = $request->input('grading_scheme');

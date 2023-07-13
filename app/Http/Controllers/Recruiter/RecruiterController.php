@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Recruiter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
@@ -193,6 +194,17 @@ class RecruiterController extends Controller
         $Recruiter->user_id = $recruitersUser->id;
         $Recruiter->save();
 
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'Recruiter is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Recruiter';
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->causer_type = 'App\Models\User';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
         $recruiterpassword = new RecruiterPassword();
 
         $recruiterpassword->user_id = $recruitersUser->id;
@@ -355,6 +367,17 @@ class RecruiterController extends Controller
         }
         $Recruiter->update();
 
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Recruiter is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = auth()->user()->id;
+        $notification->role ='';
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->save();
+        
         if ($request->has('marketing')) {
             RecruiterMarketing::where('recruiter_id', $Recruiter->id)->delete();
             foreach ($request->marketing as $marketings) {

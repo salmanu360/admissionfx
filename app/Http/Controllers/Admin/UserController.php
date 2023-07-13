@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Recruiter;
 use App\Models\RecruiterPassword;
 use App\Models\RmUnlockHistory;
 use App\Models\RmUnlockRequest;
-use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\StudentPassword;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -23,20 +23,22 @@ class UserController extends Controller
         $users = User::latest()->get();
         return view('admin.user.index', compact('users'));
     }
-    
+
     public function application()
     {
-        $users = User::where('role','application')->latest()->get();
+        $users = User::where('role', 'application')->latest()->get();
         return view('admin.user.application', compact('users'));
     }
+
     public function rm()
     {
-        $users = User::where('role','rm')->latest()->get();
+        $users = User::where('role', 'rm')->latest()->get();
         return view('admin.user.rm', compact('users'));
     }
+
     public function lockrm()
     {
-        $users = User::where('role','rm')->latest()->get();
+        $users = User::where('role', 'rm')->latest()->get();
         return view('admin.user.lockrm', compact('users'));
     }
 
@@ -56,13 +58,13 @@ class UserController extends Controller
     public function unlockrm($id)
     {
         // $user = User::where('id',$id)->where('role','rm')->first();
-        User::where('id',$id)->update(['lock_user' => 0]);
+        User::where('id', $id)->update(['lock_user' => 0]);
         $rmHistory = new RmUnlockHistory();
-        $rmHistory->rm_id =$id;
+        $rmHistory->rm_id = $id;
         $rmHistory->lock_user = 0;
         $rmHistory->created_by = auth()->user()->id;
         $rmHistory->save();
-        $RmUnlockRequestHistoryupdate = RmUnlockRequest::where('rm_id',$id)->update(['status'=>1]);
+        $RmUnlockRequestHistoryupdate = RmUnlockRequest::where('rm_id', $id)->update(['status' => 1]);
         Session::flash('success_message', 'User UN Lock Successfully');
         return redirect()->back();
 
@@ -74,15 +76,15 @@ class UserController extends Controller
         $user->lock_user == 1;
         $user->update(); */
 
-        User::where('id',$id)->update(['lock_user' => 1]);
+        User::where('id', $id)->update(['lock_user' => 1]);
         Session::flash('success_message', 'User Lock Successfully');
         return redirect()->back();
 
     }
-    
+
     public function rmUnlockRequest($id)
     {
-        $user = User::where('id',$id)->where('role','rm')->where('lock_user', 1)->first();
+        $user = User::where('id', $id)->where('role', 'rm')->where('lock_user', 1)->first();
         if ($user) {
             $rmRequest = new RmUnlockRequest();
             $rmRequest->rm_id = $id;
@@ -92,17 +94,19 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function create(){
+    public function create()
+    {
         $roles = Role::all();
         return view('admin.user.add', compact('roles'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
-            'name'=>'required',
-            'email'=>'required|unique:users,email',
-            'password'=>'required',
-            'role'=>'required',
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required',
+            'role' => 'required',
         ]);
         $user = new User();
         $user->name = $request->name;
@@ -110,8 +114,8 @@ class UserController extends Controller
         $user->password = $request->password;
         $user->role = $request->role;
         $user->save();
-        
-        if($user->role == 'student'){
+
+        if ($user->role == 'student') {
             $student = new Student();
             $student->first_name = $request->name;
             $student->email = $request->email;
@@ -121,12 +125,24 @@ class UserController extends Controller
             $student->password = Hash::make($request->password);
             $student->save();
 
+            $notification = new Notification();
+            $notification->type = 'Add';
+            $notification->data = 'Student is registered';
+            $notification->created_by = auth()->user()->name;
+            $notification->role = 'Admin';
+            $notification->notifiable_type = 'App\Models\Student';
+            $notification->causer_type = 'App\Models\Admin';
+            $notification->notifiable_id = $student->id;
+            $notification->causer_id = auth()->user()->id;
+            $notification->save();
+
+
             $stdPass = new StudentPassword();
-                $stdPass->student_password = $request->password;
-                $stdPass->user_id = $user->id;
-                $stdPass->save();
+            $stdPass->student_password = $request->password;
+            $stdPass->user_id = $user->id;
+            $stdPass->save();
         }
-        if($user->role == 'recruiter'){
+        if ($user->role == 'recruiter') {
             $recruiter = new Recruiter();
             $recruiter->company_name = $request->name;
             $recruiter->email = $request->email;
@@ -136,14 +152,26 @@ class UserController extends Controller
             $recruiter->password = Hash::make($request->password);
             $recruiter->save();
 
+            $notification = new Notification();
+            $notification->type = 'Add';
+            $notification->data = 'Recruiter is registered';
+            $notification->created_by = auth()->user()->name;
+            $notification->role = 'Admin';
+            $notification->notifiable_type = 'App\Models\Recruiter';
+            $notification->causer_type = 'App\Models\Admin';
+            $notification->notifiable_id = $recruiter->id;
+            $notification->causer_id = auth()->user()->id;
+            $notification->save();
+
             $recPass = new RecruiterPassword();
-                $recPass->recruiter_password = $request->password;
-                $recPass->user_id = $user->id;
-                $recPass->save();
+            $recPass->recruiter_password = $request->password;
+            $recPass->user_id = $user->id;
+            $recPass->save();
         }
         Session::flash('success_message', 'User added Successfully');
         return redirect()->back();
     }
+
     public function destroy($id)
     {
         $user = User::find($id);
@@ -152,51 +180,54 @@ class UserController extends Controller
 
         return redirect()->back();
     }
-    public function edit($id){
+
+    public function edit($id)
+    {
         $roles = Role::all();
         $users = User::find($id);
         return view('admin.user.edit', compact('users', 'roles'));
     }
-    public function update(Request $request, $id){
+
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'name'=>'required',
-            'role'=>'required',
+            'name' => 'required',
+            'role' => 'required',
         ]);
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
-       if($request->newPassword != ""){
-        $user->password = $request->newPassword;
-       }
+        if ($request->newPassword != "") {
+            $user->password = $request->newPassword;
+        }
         $user->role = $request->role;
         $user->update();
-        
-        if($user->role == 'student'){
+
+        if ($user->role == 'student') {
             Student::where('user_id', $id)->update([
                 'first_name' => $request->name,
                 'email' => $request->email,
             ]);
         }
-        if($user->role == 'recruiter'){
+        if ($user->role == 'recruiter') {
             Recruiter::where('user_id', $id)->update([
                 'company_name' => $request->name,
                 'email' => $request->email,
             ]);
         }
 
-        if($user->role == 'student' && $request->newPassword  != ""){
-            StudentPassword::where('user_id',$id)->update([
+        if ($user->role == 'student' && $request->newPassword != "") {
+            StudentPassword::where('user_id', $id)->update([
                 'student_password' => $request->newPassword,
             ]);
         }
 
-        if($user->role == 'recruiter' && $request->newPassword != ""){
-            RecruiterPassword::where('user_id',$id)->update([
+        if ($user->role == 'recruiter' && $request->newPassword != "") {
+            RecruiterPassword::where('user_id', $id)->update([
                 'recruiter_password' => $request->newPassword,
             ]);
         }
-
-Session::flash('success_message', 'User updated Successfully');
+        Session::flash('success_message', 'User updated Successfully');
         return redirect()->route('user.index');
     }
 }

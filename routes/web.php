@@ -48,6 +48,10 @@ Route::get('study-in-new-zeland', [App\Http\Controllers\SiteController::class, '
 Route::get('study-in-united-kingdom', [App\Http\Controllers\SiteController::class, 'studyUK'])->name('frontend.study.unitedKingdom');
 Route::get('study-in-usa', [App\Http\Controllers\SiteController::class, 'studyUSA'])->name('frontend.study.USAmerica');
 
+
+// notification read at
+Route::get('notification-read/{id}', [App\Http\Controllers\Admin\NotificationController::class, 'updateStatus'])->name('notification-read');
+
 //:::::::::::::::::::::countries universitie:::::::::::::::::://
 
 

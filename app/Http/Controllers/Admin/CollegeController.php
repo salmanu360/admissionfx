@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\College;
 use App\Models\Country;
+use App\Models\Notification;
 use App\Models\State;
 use App\Models\City;
 use Illuminate\Http\Request;
@@ -100,9 +101,19 @@ class CollegeController extends Controller
                 $college->delete('uploads/college/', $college->photo);
             }
         }
-        
-        // dd($college);
         $college->save();
+
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'New College is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\College';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $college->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+        
     	Session::flash('success_message', 'College has been successfully added');
     	return redirect()->back();
     }
@@ -167,9 +178,19 @@ class CollegeController extends Controller
                 $college->delete('uploads/college/', $college->photo);
             }
         }
-        
 
         $college->save();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'College is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\College';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $college->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
 
         Session::flash('success_message', 'College Has Been Updated Successfully');
         return redirect()->back();

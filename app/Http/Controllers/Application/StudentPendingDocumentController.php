@@ -50,13 +50,15 @@ class StudentPendingDocumentController extends Controller
         $leadHistory->date_created = Carbon::now();
         $leadHistory->save();
 
-        $query = "select * from students where id = $request->studentId";
         $notification =  new Notification();
         $notification->type ='Update';
         $notification->data = 'Lead Status Changed';
-        $notification->query = $query;
         $notification->created_by = auth()->user()->name;
         $notification->role ='Application Team';
+        $notification->notifiable_type = 'App\Models\Student';
+        $notification->causer_type = 'App\Models\User';
+        $notification->notifiable_id = $request->studentId;
+        $notification->causer_id = auth()->user()->id;
         $notification->save();
         return redirect()->back()->with('success', 'change the lead status');
     }

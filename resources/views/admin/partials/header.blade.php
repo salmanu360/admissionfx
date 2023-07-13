@@ -106,27 +106,62 @@
                 </div>
             </li>
 
+            @php
+                $notifications = \App\Models\Notification::where('created_at', '>=', \Carbon\Carbon::now()->subDays(15))
+                                ->whereNull('read_at')->orderBy('created_at', 'DESC')->get()
+            @endphp
             <li class="nav-item dropdown notification-dropdown">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="badge badge-success"></span>
                 </a>
-                <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="notificationDropdown">
+                <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="notificationDropdown" style="overflow-y: auto;">
                     <div class="notification-scroll">
-                        @php
-                        $notifications = \App\Models\Notification::where('created_at', '>=', \Carbon\Carbon::now()->subDays(15))
-                                        ->whereNull('read_at')->orderBy('created_at', 'DESC')->get()
-                        @endphp
                     @foreach($notifications as $notification)
                         <div class="dropdown-item">
                             <div class="media server-log">
                                 <div class="media-body">
                                     <div class="data-info">
-                                        <h6 class="">{{$notification->id}} </h6>
-                                        <p class="">45 min ago</p>
+
+                @if (auth()->user()->role != 'student' AND auth()->user()->role != 'recruiter' AND auth()->user()->role != 'application')
+                         @if ($notification->notifiable_type == 'App\Models\College')
+                             @if(auth()->user()->role == 'rm')
+                                <h6><a href="{{url('/rm/college/getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                             @else
+                                <h6><a href="{{route('college.getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                             @endif
+                        @elseif($notification->notifiable_type == 'App\Models\Course')
+                            @if(auth()->user()->role == 'rm')
+                                <h6><a href="{{url('/rm/course/getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @else
+                                <h6><a href="{{route('course.getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @endif
+                        @elseif ($notification->notifiable_type == 'App\Models\Recruiter')
+                            @if(auth()->user()->role == 'rm')
+                                <h6><a href="{{url('/rm/recruiter/getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @else
+                                <h6><a href="{{route('recruiter.getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @endif
+                        @elseif($notification->notifiable_type =='App\Models\Student')
+                            @if(auth()->user()->role == 'rm')
+                                <h6><a href="{{url('/rm/student/getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @else
+                                <h6><a href="{{route('college.getDetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                            @endif
+                        @endif
+                                        <p class="">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}
+                                        <br>
+                                            <span class="badge bg-light-info">Unread</span>
+                                            <a href="{{route('notification-read', $notification->id)}}">
+                                              <span class="badge bg-light-danger"> Mark as read</span>
+                                            </a>
+                                        </p>
+                                        @endif
                                     </div>
 
                                     <div class="icon-status">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        <a href="{{route('notification-read', $notification->id)}}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x markAsRead" data-id="{{$notification->id}}"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

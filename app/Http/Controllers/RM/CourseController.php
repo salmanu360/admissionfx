@@ -8,6 +8,7 @@ use App\Models\College;
 use App\Models\Country;
 use App\Models\Course;
 use App\Models\CSVUpload;
+use App\Models\Notification;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -58,11 +59,22 @@ class CourseController extends Controller
         $course->requirement = $request->requirement;
         $course->college_id = $request->college_id;
         
-         $course->created_by = Auth()->user()->id;
+        $course->created_by = Auth()->user()->id;
         $course->created_by_name = Auth()->user()->name;
         
         $course->save();
 
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'Course is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = auth()->user()->id;
+        $notification->role ='RM';
+        $notification->notifiable_type = 'App\Models\Course';
+        $notification->notifiable_id = $course->id;
+        $notification->save();
+        
         Session::flash('success_message', 'Course has been successfully added');
         return redirect()->route('courses.index');
     }
@@ -116,6 +128,17 @@ class CourseController extends Controller
             $course->status = 1;
         }
         $course->update();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Course is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = auth()->user()->id;
+        $notification->role ='RM';
+        $notification->notifiable_type = 'App\Models\Course';
+        $notification->notifiable_id = $course->id;
+        $notification->save();
 
         Session::flash('success_message', 'Course has been successfully updated');
         return redirect()->route('courses.index');

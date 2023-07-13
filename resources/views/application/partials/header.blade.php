@@ -90,31 +90,55 @@
                     </div>
                 </div>
             </li>
-
+            @php
+                $notifications = \App\Models\Notification::where('created_at', '>=', \Carbon\Carbon::now()->subDays(15))
+                               ->where('notifiable_type','App\Models\Recruiter')->orWhere('notifiable_type','App\Models\Student')->whereNull('read_at')->orderBy('created_at', 'DESC')->get()
+            @endphp
             <li class="nav-item dropdown notification-dropdown">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="badge badge-success"></span>
                 </a>
-                <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="notificationDropdown">
+                <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="notificationDropdown" style="overflow-y: auto;">
                     <div class="notification-scroll">
+                        @foreach($notifications as $notification)
+                            <div class="dropdown-item">
+                                <div class="media server-log">
+                                    <div class="media-body">
+                                        <div class="data-info">
 
-                        @foreach(auth()->user()->unreadnotifications as $notification)
-                        <div class="dropdown-item">
-                            <div class="media server-log">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6" y2="6"></line><line x1="6" y1="18" x2="6" y2="18"></line></svg>
-                                <div class="media-body">
-                                    <div class="data-info">
-                                        <h6 class="">{{$notification->data['name']}} {{ $notification->data['action'] }}</h6>
-                                        <p class="">45 min ago</p>
-                                    </div>
+                                        @if (auth()->user()->role == 'application')
+                                            @if ($notification->notifiable_type == 'App\Models\Recruiter')
+                                                <h6><a href="{{route('application.recruiterdetail', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}})</a> </h6>
+                                                <p class="">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}
+                                                    <br>
+                                                    <span class="badge bg-light-info">Unread</span>
+                                                    <a href="{{route('notification-read', $notification->id)}}">
+                                                        <span class="badge bg-light-danger"> Mark as read</span>
+                                                    </a>
+                                                </p>
+                                            @elseif($notification->notifiable_type =='App\Models\Student')
+                                                <h6><a href="{{route('application.showstudent', $notification->notifiable_id)}}">{{$notification->data}} by {{$notification->created_by}} ({{$notification->role}}) </a> </h6>
 
-                                    <div class="icon-status">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                <p class="">{{ Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}
+                                                    <br>
+                                                    <span class="badge bg-light-info">Unread</span>
+                                                    <a href="{{route('notification-read', $notification->id)}}">
+                                                        <span class="badge bg-light-danger"> Mark as read</span>
+                                                    </a>
+                                                </p>
+                                            @endif
+                                    @endif
+                                        </div>
+
+                                        <div class="icon-status">
+                                            <a href="{{route('notification-read', $notification->id)}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x markAsRead" data-id="{{$notification->id}}"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        @endforeach
+                    @endforeach
 
                         <!--<div class="dropdown-item">-->
                         <!--    <div class="media ">-->

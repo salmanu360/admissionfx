@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Notification;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Recruiter;
@@ -149,6 +150,19 @@ class RecruiterController extends Controller
         }
 
         $Recruiter->save();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Recruiter is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $Recruiter->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
+
         if ($request->has('marketing')) {
             
             foreach ($request->marketing as $marketings) {
@@ -448,6 +462,20 @@ class RecruiterController extends Controller
         }else{
             $checkstatus='Disapprove';
         }
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'Recruiter is ' . $checkstatus;
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Recruiter';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
+
+
+
         /* ===mail to admin===*/
         $mailData = [
           'title' => 'Recruiter Status '.$checkstatus.'',

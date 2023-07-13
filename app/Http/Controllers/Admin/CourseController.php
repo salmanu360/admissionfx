@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\College;
 use App\Models\Country;
 use App\Models\Course;
+use App\Models\Notification;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -129,6 +130,16 @@ class CourseController extends Controller
         $course->created_by_name = Auth()->user()->name;
 
         $course->save();
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'New Course is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Course';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $course->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
 
         Session::flash('success_message', 'Course has been successfully added');
         return redirect()->route('course.index');
@@ -204,6 +215,17 @@ class CourseController extends Controller
             $course->status = 1;
         }
         $course->update();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = ' Course is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->role ='Admin';
+        $notification->notifiable_type = 'App\Models\Course';
+        $notification->causer_type = 'App\Models\Admin';
+        $notification->notifiable_id = $course->id;
+        $notification->causer_id = auth()->user()->id;
+        $notification->save();
 
         Session::flash('success_message', 'Course has been successfully updated');
         return redirect()->route('course.index');

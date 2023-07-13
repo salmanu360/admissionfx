@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\College;
 use App\Models\Country;
 use App\Models\CSVUpload;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -85,9 +86,19 @@ class CollegeController extends Controller
                 $college->delete('uploads/college/', $college->photo);
             }
         }
-        
-        // dd($college);
         $college->save();
+
+        $notification =  new Notification();
+        $notification->type ='Add';
+        $notification->data = 'College is registered';
+        $notification->created_by = auth()->user()->name;
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = auth()->user()->id;
+        $notification->role ='RM';
+        $notification->notifiable_type = 'App\Models\College';
+        $notification->notifiable_id = $college->id;
+        $notification->save();
+        
     	Session::flash('success_message', 'College has been successfully added');
     	return redirect()->back();
     }
@@ -150,9 +161,19 @@ class CollegeController extends Controller
                 $college->delete('uploads/college/', $college->photo);
             }
         }
-        
 
         $college->save();
+
+        $notification =  new Notification();
+        $notification->type ='Update';
+        $notification->data = 'College is updated';
+        $notification->created_by = auth()->user()->name;
+        $notification->causer_type = 'App\Models\User';
+        $notification->causer_id = auth()->user()->id;
+        $notification->role ='RM';
+        $notification->notifiable_type = 'App\Models\College';
+        $notification->notifiable_id = $college->id;
+        $notification->save();
 
         Session::flash('success_message', 'College Has Been Updated Successfully');
         return redirect()->back();
